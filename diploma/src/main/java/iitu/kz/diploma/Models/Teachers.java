@@ -8,26 +8,105 @@ public class Teachers {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")  // updatable = false
-    private Long id;
+    @Column(name="id", nullable = false)  // updatable = false
+    private long id;
 
     @Column(name = "full_name", nullable = false, columnDefinition = "TEXT", unique = true)
-    private String fullname;
+    private String full_name;
 
     @Column(name = "email", nullable = false, columnDefinition = "TEXT", unique = true)
     private String email;
 
-    @Column(name = "password", nullable = false, columnDefinition = "TEXT")
-    private String password;
+    @Column(name = "position", nullable = false, columnDefinition = "TEXT")
+    private String position;
 
-    @Column(name = "role", nullable = false, columnDefinition = "TEXT")
-    private String role;
+    @Column(name = "degree", nullable = false, columnDefinition = "TEXT")
+    private String degree;
+
+    @Column(name = "department", nullable = false, columnDefinition = "TEXT")
+    private String department;
+
+    @Column(name = "articles", nullable = true, columnDefinition = "TEXT[]")
+    private String[] articles;
+
+    @Column(name = "load", nullable = true, columnDefinition = "BIGINT")
+    private long load;
 
     public Teachers() {
     }
 
-    public Teachers(String email, String password, String role) {
+    public Teachers(String full_name, String email, String position, String degree, String department, String[] articles, long load) {
+        this.full_name = full_name;
+        this.email = email;
+        this.position = position;
+        this.degree = degree;
+        this.department = department;
+        this.articles = articles;
+        this.load = load;
+    }
 
+    public long getLoad() {
+        return load;
+    }
+
+    public void setLoad(long load) {
+        this.load = load;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getFull_name() {
+        return full_name;
+    }
+
+    public void setFull_name(String full_name) {
+        this.full_name = full_name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
+    public String getDegree() {
+        return degree;
+    }
+
+    public void setDegree(String degree) {
+        this.degree = degree;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+    public String[] getArticles() {
+        return articles;
+    }
+
+    public void setArticles(String[] articles) {
+        this.articles = articles;
     }
 
 }

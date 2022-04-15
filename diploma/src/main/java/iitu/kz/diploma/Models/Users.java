@@ -8,8 +8,8 @@ public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")  // updatable = false
-    private Long id;
+    @Column(name="id", nullable = false)  // updatable = false
+    private long id;
 
     @Column(name = "email", nullable = false, columnDefinition = "TEXT", unique = true)
     private String email;
@@ -29,7 +29,7 @@ public class Users {
         this.role = role;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
@@ -45,7 +45,7 @@ public class Users {
         return role;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
