@@ -1,6 +1,9 @@
 package iitu.kz.diploma.Models;
 
+import iitu.kz.diploma.ListToStringConverter;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "Teachers")
@@ -27,7 +30,8 @@ public class Teachers {
     private String department;
 
     @Column(name = "articles", nullable = true, columnDefinition = "TEXT[]")
-    private String[] articles;
+    @Convert(converter = ListToStringConverter.class)
+    private List<String> articles;
 
     @Column(name = "load", nullable = true, columnDefinition = "BIGINT")
     private long load;
@@ -35,7 +39,7 @@ public class Teachers {
     public Teachers() {
     }
 
-    public Teachers(String full_name, String email, String position, String degree, String department, String[] articles, long load) {
+    public Teachers(String full_name, String email, String position, String degree, String department, List<String> articles, long load) {
         this.full_name = full_name;
         this.email = email;
         this.position = position;
@@ -101,11 +105,11 @@ public class Teachers {
         this.department = department;
     }
 
-    public String[] getArticles() {
+    public List<String> getArticles() {
         return articles;
     }
 
-    public void setArticles(String[] articles) {
+    public void setArticles(List<String> articles) {
         this.articles = articles;
     }
 
