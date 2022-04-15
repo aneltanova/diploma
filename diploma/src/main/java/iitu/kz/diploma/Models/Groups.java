@@ -13,16 +13,16 @@ public class Groups {
     @Column(name = "group", nullable = false, columnDefinition = "TEXT", unique = true)
     private String group;
 
-    @Column(name = "number_of_students", nullable = false, columnDefinition = "BIGINT")
+    @Column(name = "number_of_students", nullable = false, columnDefinition = "NUMERIC")
     private long number_of_students;
 
     @Column(name = "speciality", nullable = false, columnDefinition = "TEXT")
     private String speciality;
 
-    @Column(name = "semester", nullable = false, columnDefinition = "BIGINT")
+    @Column(name = "semester", nullable = false, columnDefinition = "NUMERIC")
     private long semester;
 
-    @Column(name = "course", nullable = false, columnDefinition = "BIGINT")
+    @Column(name = "course", nullable = false, columnDefinition = "NUMERIC")
     private long course;
 
 

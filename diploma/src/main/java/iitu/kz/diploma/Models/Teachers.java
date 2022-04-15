@@ -14,7 +14,7 @@ public class Teachers {
     @Column(name="id", nullable = false)  // updatable = false
     private long id;
 
-    @Column(name = "full_name", nullable = false, columnDefinition = "TEXT", unique = true)
+    @Column(name = "full_name", nullable = false, columnDefinition = "TEXT")
     private String full_name;
 
     @Column(name = "email", nullable = false, columnDefinition = "TEXT", unique = true)
@@ -33,7 +33,7 @@ public class Teachers {
     @Convert(converter = ListToStringConverter.class)
     private List<String> articles;
 
-    @Column(name = "load", nullable = true, columnDefinition = "BIGINT")
+    @Column(name = "load", nullable = true, columnDefinition = "NUMERIC")
     private long load;
 
     public Teachers() {
