@@ -1,6 +1,4 @@
 package iitu.kz.diploma.Models;
-
-
 import javax.persistence.*;
 
 @Entity

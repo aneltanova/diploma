@@ -10,8 +10,8 @@ public class Groups {
     @Column(name="id", nullable = false)  // updatable = false
     private long id;
 
-    @Column(name = "group", nullable = false, columnDefinition = "TEXT", unique = true)
-    private String group;
+    @Column(name = "group_name", nullable = false, columnDefinition = "TEXT", unique = true)
+    private String group_name;
 
     @Column(name = "number_of_students", nullable = false, columnDefinition = "NUMERIC")
     private long number_of_students;
@@ -19,21 +19,20 @@ public class Groups {
     @Column(name = "speciality", nullable = false, columnDefinition = "TEXT")
     private String speciality;
 
-    @Column(name = "semester", nullable = false, columnDefinition = "NUMERIC")
-    private long semester;
-
     @Column(name = "course", nullable = false, columnDefinition = "NUMERIC")
     private long course;
 
+    @Column(name = "semester", nullable = false, columnDefinition = "NUMERIC")
+    private long semester;
 
     public Groups(){   }
 
-    public Groups(String group, long number_of_students, String speciality, long semester, long course){
-        this.group = group;
+    public Groups(String group_name, long number_of_students, String speciality, long course, long semester){
+        this.group_name = group_name;
         this.number_of_students = number_of_students;
         this.speciality = speciality;
-        this.semester = semester;
         this.course = course;
+        this.semester = semester;
     }
 
     public long getId() {
@@ -44,12 +43,12 @@ public class Groups {
         this.id = id;
     }
 
-    public String getGroup() {
-        return group;
+    public String getGroup_name() {
+        return group_name;
     }
 
-    public void setGroup(String group) {
-        this.group = group;
+    public void setGroup_name(String group) {
+        this.group_name = group;
     }
 
     public long getNumber_of_students() {
@@ -68,19 +67,19 @@ public class Groups {
         this.speciality = speciality;
     }
 
-    public long getSemester() {
-        return semester;
-    }
-
-    public void setSemester(long semester) {
-        this.semester = semester;
-    }
-
     public long getCourse() {
         return course;
     }
 
     public void setCourse(long course) {
         this.course = course;
+    }
+
+    public long getSemester() {
+        return semester;
+    }
+
+    public void setSemester(long semester) {
+        this.semester = semester;
     }
 }

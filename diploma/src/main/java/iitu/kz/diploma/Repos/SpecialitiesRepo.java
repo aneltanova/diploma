@@ -1,7 +1,7 @@
 package iitu.kz.diploma.Repos;
 
 import iitu.kz.diploma.Models.Specialities;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface SpecialitiesRepo extends CrudRepository<Specialities, Long> {
+public interface SpecialitiesRepo extends JpaRepository<Specialities, Long> {
 }

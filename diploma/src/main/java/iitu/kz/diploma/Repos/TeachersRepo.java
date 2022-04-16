@@ -1,7 +1,7 @@
 package iitu.kz.diploma.Repos;
 
 import iitu.kz.diploma.Models.Teachers;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface TeachersRepo extends CrudRepository<Teachers, Long> {
+public interface TeachersRepo extends JpaRepository<Teachers, Long> {
 }
