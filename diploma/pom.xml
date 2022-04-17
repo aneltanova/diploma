@@ -40,6 +40,13 @@
 			<artifactId>spring-data-jpa</artifactId>
 			<version>2.4.8</version>
 		</dependency>
+
+		<dependency>
+			<groupId>com.vladmihalcea</groupId>
+			<artifactId>hibernate-types-52</artifactId>
+			<version>2.16.0</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
