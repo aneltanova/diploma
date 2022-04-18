@@ -2,19 +2,25 @@ package iitu.kz.diploma.Models;
 
 
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
+import com.vladmihalcea.hibernate.type.json.JsonStringType;
 import iitu.kz.diploma.ListToJsonConverter;
+import lombok.*;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @TypeDefs({
-
-        @TypeDef(name = "json", typeClass = JsonBinaryType.class)
+        @TypeDef(name = "json", typeClass = JsonStringType.class),
+        @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
 })
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "Load")
 public class Load {
@@ -27,10 +33,10 @@ public class Load {
     @Column(name = "teacher_id", nullable = false, columnDefinition = "BIGINT")
     private long teacher_id;
 
-    @Column(name = "academic_load", columnDefinition = "json")
-    @Convert(converter = ListToJsonConverter.class)
-    private List<String> academic_load;
-
+    @Type(type = "jsonb")
+    @Column(name = "academic_load", columnDefinition = "jsonb")
+    private List<AcademicLoad> academic_load;
+    //@Convert(converter = ListToJsonConverter.class)
 
 //    @Column(name = "discipline", nullable = true, columnDefinition = "TEXT")
 //    private String discipline;
@@ -47,16 +53,16 @@ public class Load {
 //    @Column(name = "component", nullable = true, columnDefinition = "TEXT")
 //    private String component;
 
+//
+//    public Load() {
+//    }
+//
+//    public Load(long teacher_id, List<String> academic_load) {
+//        this.teacher_id = teacher_id;
+//        this.academic_load = academic_load;
+//    }
 
-    public Load() {
-    }
-
-    public Load(long teacher_id, List<String> academic_load) {
-        this.teacher_id = teacher_id;
-        this.academic_load = academic_load;
-    }
-
-    //    public Load(long teacher_id, String discipline, String speciality, String group, String target_activity, String component) {
+//    public Load(long teacher_id, String discipline, String speciality, String group, String target_activity, String component) {
 //        this.teacher_id = teacher_id;
 //        this.discipline = discipline;
 //        this.speciality = speciality;
@@ -64,30 +70,30 @@ public class Load {
 //        this.target_activity = target_activity;
 //        this.component = component;
 //    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public long getTeacher_id() {
-        return teacher_id;
-    }
-
-    public void setTeacher_id(long teacher_id) {
-        this.teacher_id = teacher_id;
-    }
-
-    public List<String> getAcademic_load() {
-        return academic_load;
-    }
-
-    public void setAcademic_load(List<String> academic_load) {
-        this.academic_load = academic_load;
-    }
+//
+//    public long getId() {
+//        return id;
+//    }
+//
+//    public void setId(long id) {
+//        this.id = id;
+//    }
+//
+//    public long getTeacher_id() {
+//        return teacher_id;
+//    }
+//
+//    public void setTeacher_id(long teacher_id) {
+//        this.teacher_id = teacher_id;
+//    }
+//
+//    public List<String> getAcademic_load() {
+//        return academic_load;
+//    }
+//
+//    public void setAcademic_load(List<String> academic_load) {
+//        this.academic_load = academic_load;
+//    }
 //    public String getDiscipline() {
 //        return discipline;
 //    }
@@ -128,3 +134,4 @@ public class Load {
 //        this.component = component;
 //    }
 }
+

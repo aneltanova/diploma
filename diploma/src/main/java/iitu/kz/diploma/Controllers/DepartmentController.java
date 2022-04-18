@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-//@RequestMapping("/departments")
+@RequestMapping("/departments")
 public class DepartmentController {
 
 //    @Autowired
@@ -24,18 +24,18 @@ public class DepartmentController {
         this.departmentsRepo = departmentsRepo;
     }
 
-    @GetMapping("/find-all")
+    @GetMapping("/findall")
     public List<Departments> findAll() {
         return (List<Departments>) departmentsRepo.findAll();
     }
 
-    @PostMapping("/create-department")
+    @PostMapping("/create")
     public Departments add(@RequestBody Departments department) {
         departmentsRepo.save(department);
         return department;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/find/{id}")
     public Optional<Departments> find(@PathVariable("id") long id) {
         return departmentsRepo.findById(id);
     }

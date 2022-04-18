@@ -4,7 +4,11 @@ import iitu.kz.diploma.ListToStringConverter;
 
 import javax.persistence.*;
 import java.util.List;
+import lombok.*;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "Articles")
 public class Articles {
@@ -31,62 +35,62 @@ public class Articles {
     @Convert(converter = ListToStringConverter.class)
     private List<String> publisher;
 
-    public Articles() {
-    }
+//    public Articles() {
+//    }
+//
+//    public Articles(String title, String description, String type, List<String> authors, List<String> publisher) {
+//        this.title = title;
+//        this.description = description;
+//        this.type = type;
+//        this.authors = authors;
+//        this.publisher = publisher;
+//    }
 
-    public Articles(String title, String description, String type, List<String> authors, List<String> publisher) {
-        this.title = title;
-        this.description = description;
-        this.type = type;
-        this.authors = authors;
-        this.publisher = publisher;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public List<String> getAuthors() {
-        return authors;
-    }
-
-    public void setAuthors(List<String> authors) {
-        this.authors = authors;
-    }
-
-    public List<String> getPublisher() {
-        return publisher;
-    }
-
-    public void setPublisher(List<String> publisher) {
-        this.publisher = publisher;
-    }
+//    public long getId() {
+//        return id;
+//    }
+//
+//    public void setId(long id) {
+//        this.id = id;
+//    }
+//
+//    public String getTitle() {
+//        return title;
+//    }
+//
+//    public void setTitle(String title) {
+//        this.title = title;
+//    }
+//
+//    public String getDescription() {
+//        return description;
+//    }
+//
+//    public void setDescription(String description) {
+//        this.description = description;
+//    }
+//
+//    public String getType() {
+//        return type;
+//    }
+//
+//    public void setType(String type) {
+//        this.type = type;
+//    }
+//
+//    public List<String> getAuthors() {
+//        return authors;
+//    }
+//
+//    public void setAuthors(List<String> authors) {
+//        this.authors = authors;
+//    }
+//
+//    public List<String> getPublisher() {
+//        return publisher;
+//    }
+//
+//    public void setPublisher(List<String> publisher) {
+//        this.publisher = publisher;
+//    }
 }

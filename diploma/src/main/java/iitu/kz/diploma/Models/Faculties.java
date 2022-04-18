@@ -1,7 +1,11 @@
 package iitu.kz.diploma.Models;
 
 import javax.persistence.*;
+import lombok.*;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "Faculties")
 public class Faculties {
@@ -14,25 +18,28 @@ public class Faculties {
     @Column(name = "faculty", nullable = false, columnDefinition = "TEXT", unique = true)
     private String faculty;
 
-    public Faculties(){}
+    @Column(name = "dean", nullable = false, columnDefinition = "TEXT") // full_name
+    private String dean;
 
-    public long getId() {
-        return id;
-    }
+//    public Faculties(){}
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getFaculty() {
-        return faculty;
-    }
-
-    public void setFaculty(String faculty) {
-        this.faculty = faculty;
-    }
-
-    public Faculties(String faculty){
-        this.faculty = faculty;
-    }
+//    public long getId() {
+//        return id;
+//    }
+//
+//    public void setId(long id) {
+//        this.id = id;
+//    }
+//
+//    public String getFaculty() {
+//        return faculty;
+//    }
+//
+//    public void setFaculty(String faculty) {
+//        this.faculty = faculty;
+//    }
+//
+//    public Faculties(String faculty){
+//        this.faculty = faculty;
+//    }
 }

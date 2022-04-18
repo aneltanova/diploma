@@ -1,7 +1,11 @@
 package iitu.kz.diploma.Models;
 
 import javax.persistence.*;
+import lombok.*;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "Specialities")
 public class Specialities {
@@ -17,35 +21,35 @@ public class Specialities {
     @Column(name = "department", nullable = false, columnDefinition = "TEXT")
     private String department;
 
-    public Specialities(){}
+//    public Specialities(){}
 
-    public long getId() {
-        return id;
-    }
+//    public long getId() {
+//        return id;
+//    }
+//
+//    public void setId(long id) {
+//        this.id = id;
+//    }
+//
+//    public String getSpeciality() {
+//        return speciality;
+//    }
+//
+//    public void setSpeciality(String speciality) {
+//        this.speciality = speciality;
+//    }
+//
+//    public String getDepartment() {
+//        return department;
+//    }
+//
+//    public void setDepartment(String department) {
+//        this.department = department;
+//    }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getSpeciality() {
-        return speciality;
-    }
-
-    public void setSpeciality(String speciality) {
-        this.speciality = speciality;
-    }
-
-    public String getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(String department) {
-        this.department = department;
-    }
-
-    public Specialities(String speciality, String department){
-        this.speciality = speciality;
-        this.department = department;
-    }
+//    public Specialities(String speciality, String department){
+//        this.speciality = speciality;
+//        this.department = department;
+//    }
 
 }
