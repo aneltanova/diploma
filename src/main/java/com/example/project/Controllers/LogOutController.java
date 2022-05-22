@@ -17,7 +17,9 @@ public class LogOutController {
             if (authentication != null){
                 new SecurityContextLogoutHandler().logout(request,response, authentication);
             }
-        return ("/home");
+        return ("home");
     }
+
+
 
 }

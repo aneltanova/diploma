@@ -5,8 +5,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.List;
 
 public class TeacherDetailsImpl implements UserDetails {
     private Teacher teacher;
@@ -17,7 +18,9 @@ public class TeacherDetailsImpl implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(new SimpleGrantedAuthority("USER"));
+        List<GrantedAuthority> roles = new ArrayList<>();
+        roles.add(new SimpleGrantedAuthority("ROLE_" + teacher.getRole().getRolename()));
+        return roles;
     }
 
     @Override

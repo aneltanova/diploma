@@ -21,15 +21,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.authorizeRequests()
                 .antMatchers("/users").authenticated()
-                .antMatchers("/signUp").permitAll()
+                .antMatchers("/signUp").hasAnyRole("ADMIN")
                 .and()
                 .formLogin()
-                .loginPage("/signIn")
+                .loginPage("/login")
                 .usernameParameter("email")
                 .passwordParameter("password")
                 .defaultSuccessUrl("/users")
                 .failureUrl("/signIn")
-                .permitAll();
+                .permitAll()
+                .and()
+                .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/")
+                .invalidateHttpSession(true);
+
+        http.sessionManagement().sessionFixation().newSession();
+
     }
 
     @Override

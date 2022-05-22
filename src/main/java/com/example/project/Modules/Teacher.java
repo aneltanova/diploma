@@ -3,19 +3,20 @@ package com.example.project.Modules;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+//import iitu.kz.diploma.ListToStringConverter;
 
-@Getter
-@Setter
-@Builder
-@AllArgsConstructor
+import javax.persistence.*;
+import java.util.List;
+import lombok.*;
+
+@Data
 @NoArgsConstructor
-
+@AllArgsConstructor
 @Entity
+@Table(name = "Teachers")
 public class Teacher {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,5 +27,9 @@ public class Teacher {
     private String position;
     private String degree;
     private String department_id;
+
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
 
 }

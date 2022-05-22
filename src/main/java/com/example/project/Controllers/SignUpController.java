@@ -1,5 +1,6 @@
 package com.example.project.Controllers;
 
+import com.example.project.Modules.Role;
 import com.example.project.Modules.Teacher;
 import com.example.project.Repositories.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,18 +15,26 @@ public class SignUpController {
     @Autowired
     private TeacherRepository teacherRepository;
 
-
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @GetMapping("/signUp")
     public String getSignUpPage(){
-        return "signUp_page";
+        return "user_add";
     }
 
     @PostMapping("/signUp")
-    public String signUpUser(Teacher teacher){
+    public String signUpUser(Teacher teacher, Role role){
+        if (role.getRolename().equals("ADMIN")){
+            role.setRole_id(1L);
+        }
+        else if (role.getRolename().equals("HEAD_OF_DEP")){
+            role.setRole_id(2L);
+        }
+        else
+            role.setRole_id(3L);
         teacher.setPassword(passwordEncoder.encode(teacher.getPassword()));
+        teacher.setRole(role);
         teacherRepository.save(teacher);
         return "home";
         //redirect:/signUp

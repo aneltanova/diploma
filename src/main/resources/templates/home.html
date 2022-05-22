@@ -1,8 +1,77 @@
 <!DOCTYPE html>
+<html xmlns:th = "http://www.thymeleaf.org">
+<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
+    <title>Main Page</title>
+    <link th:href="@{/css/template.css}" rel="stylesheet" />
+
 </head>
 <body>
-    <p>Hello</p>
+<section class="nav-bar">
+    <div class="nav-container">
+        <div class="logo">
+            <img th:src="@{/css/IITU-logo.png}" class="logo-image">
+        </div>
+        <nav>
+            <ul class="nav-list">
+                <li>
+                    <a th:href="@{/}" >Main </a>
+                </li>
+                <li>
+                    <a href="#!">My Documents</a>
+<!--                    <ul class="nav-dropdown">-->
+<!--                        <li>-->
+<!--                            <a href="#!">Academic Load</a>-->
+<!--                        </li>-->
+<!--                        <li>-->
+<!--                            <a href="#!">Individual Plan</a>-->
+<!--                        </li>-->
+<!--                        <li>-->
+<!--                            <a href="#!">Individual Report</a>-->
+<!--                        </li>-->
+<!--                        <li>-->
+<!--                            <a href="#!">Documents Status</a>-->
+<!--                        </li>-->
+<!--                    </ul>-->
+                </li>
+                <li>
+                    <a href="#!">Academic load</a>
+                </li>
+                <li>
+                    <a href="#!"> Scientific-research work </a>
+<!--                    <ul class="nav-dropdown">-->
+<!--                        <li>-->
+<!--                            <a href="#!">1</a>-->
+<!--                        </li>-->
+<!--                        <li>-->
+<!--                            <a href="#!">2</a>-->
+<!--                        </li>-->
+<!--                        <li>-->
+<!--                            <a href="#!">3</a>-->
+<!--                        </li>-->
+<!--                    </ul>-->
+                </li>
+                <li sec:authorize="isAuthenticated()">
+                    <a th:href="@{/signUp}" th:text ="${#authentication.getName()}"></a>
+                </li>
+                <li><sign-out>
+                    <a th:href="@{/logout}">SIGN OUT</a></sign-out>
+                </li>
+                <li><sign-in>
+                    <a  th:href="@{/signIn}">SIGN IN</a></sign-in>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</section>
+
+<p th:text=" 'Hello, ' + ${title}"></p>
+
+<div sec:authorize="isAuthenticated()">
+    <form name="logoutForm" th:action="@{/logout}" method="get" th:hidden="true">
+        <input hidden type="submit" value="Sign Out" />
+    </form>
+</div>
 </body>
 </html>
