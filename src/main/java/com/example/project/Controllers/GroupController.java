@@ -21,38 +21,44 @@ public class GroupController {
         this.groupsRepo = groupsRepo;
     }
 
-    @GetMapping("/group/add")
+    @GetMapping("/groups/add")
     public String addGroup(){
-        return "group_add";
+        return "groups_edit";
     }
 
     @GetMapping("/groups")
     public String getGroupsPage(Model model){
         List<Groups> groups = groupsRepo.findAll();
         model.addAttribute("groups", groups);
-        return "groups_list";
+        return "groups_edit";
     }
 
-    @PostMapping("/group/add")
+    @PostMapping("/groups/add")
     public String add(Groups speciality) {
         groupsRepo.save(speciality);
-        return "group_add";
+        return "redirect:/groups";
     }
 
-//    @GetMapping("/find/{id}")
-//    public Optional<Groups> find(@PathVariable("id") long id) {
-//        return groupsRepo.findById(id);
-//    }
-//
-//    @DeleteMapping("/delete/{id}")
-//    public void delete(@PathVariable("id") long id) {
-//        groupsRepo.deleteById(id);
-//    }
-//
+//    @GetMapping("/groups/edit")
+
+
+    @GetMapping("/groups/delete")
+    public String delete(@RequestParam long id) {
+        groupsRepo.deleteById(id);
+        return "redirect:/groups";
+    }
 //    @PutMapping("/update/{id}")
 //    public Groups update(@PathVariable("id") long id, @RequestBody Groups group) {
 //        group.setId(id);
 //        groupsRepo.save(group);
 //        return group;
 //    }
+
+//    @GetMapping("/find/{id}")
+//    public Optional<Groups> find(@PathVariable("id") long id) {
+//        return groupsRepo.findById(id);
+//    }
+//
+//
+
 }

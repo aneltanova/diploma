@@ -17,7 +17,7 @@
         body {
             color: #566787;
             background: #f5f5f5;
-            font-family: 'Varela Round', sans-serif;
+            font-family: 'Roboto', sans-serif;
             font-size: 13px;
         }
         .table-responsive {
@@ -223,6 +223,52 @@
         .nav-link{
             color: black;
         }
+
+        .search-box {
+            /*font-size: 17pt;*/
+            position: relative;
+            float: right;
+        }
+        .search-box .input-group {
+            min-width: 300px;
+            position: absolute;
+            right: 0;
+        }
+        .search-box .input-group-addon, .search-box input {
+            border-color: #ddd;
+            border-radius: 0;
+        }
+        .search-box input {
+            height: 35px;
+            padding-right: 35px;
+            padding-top: 5px;
+            background: #f3f6f6;
+            border: none;
+            border-radius: 2px !important;
+        }
+        .search-box input:focus {
+            background: #fff;
+        }
+        .search-box input::placeholder {
+            font-size: 15px;
+        }
+
+        .search-box .input-group-addon {
+            min-width: 35px;
+            border: none;
+            background: transparent;
+            position: absolute;
+            right: 0;
+            z-index: 9;
+            padding: 6px 0;
+        }
+        .search-box i {
+            color: #a0a5b1;
+            font-size: 19px;
+            position: relative;
+            top: 2px;
+        }
+
     </style>
     <script>
         $(document).ready(function(){
@@ -246,6 +292,20 @@
                 if(!this.checked){
                     $("#selectAll").prop("checked", false);
                 }
+            });
+
+            $("#search").on("keyup", function() {
+                var term = $(this).val().toLowerCase();
+                $("table tbody tr").each(function(){
+                    $row = $(this);
+                    var name = $row.find("td:nth-child(3)").text().toLowerCase();
+                    console.log(name);
+                    if(name.search(term) < 0){
+                        $row.hide();
+                    } else{
+                        $row.show();
+                    }
+                });
             });
         });
     </script>
@@ -288,13 +348,13 @@
 <!--</div>-->
 
 
-<div class="bs-example">
-    <nav class="nav flex-column">
-        <a th:href="@{/group/add}" class="nav-item nav-link active">Create new</a>
-        <a th:href="@{/groups}" class="nav-item nav-link">Groups list</a>
-        <!--        <a th:href="@{/groups_edit}" class="nav-item nav-link">Edit </a>-->
-    </nav>
-</div>
+<!--<div class="bs-example">-->
+<!--    <nav class="nav flex-column">-->
+<!--        <a th:href="@{/group/add}" class="nav-item nav-link active">Create new</a>-->
+<!--        <a th:href="@{/groups}" class="nav-item nav-link">Groups list</a>-->
+<!--        &lt;!&ndash;        <a th:href="@{/groups_edit}" class="nav-item nav-link">Edit </a>&ndash;&gt;-->
+<!--    </nav>-->
+<!--</div>-->
 
 
 <div class="container-xl">
@@ -303,11 +363,17 @@
             <div class="table-title">
                 <div class="row">
                     <div class="col-sm-6">
-                        <h2>Manage Teachers</h2>
+                        <h2>Manage Groups</h2>
+                    </div>
+                    <div class="search-box">
+                        <div class="input-group">
+                            <input type="text" id="search" class="form-control" placeholder="Search by group">
+                            <span class="input-group-addon"><i class="material-icons">&#xE8B6;</i></span>
+                        </div>
                     </div>
                     <div class="col-sm-6">
-                        <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Employee</span></a>
-                        <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>
+                        <a href="#addModal" class="btn btn-outline-info" data-toggle="modal"><i class="material-icons">&#xE146;</i> <span>New Group</span></a>
+<!--                        <a href="#deleteEModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>-->
                     </div>
                 </div>
             </div>
@@ -321,107 +387,154 @@
 							</span>
                     </th>
                     <th scope="col">ID</th>
-                    <th scope="col">First Name</th>
-                    <th scope="col">Last Name</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Department</th>
-                    <th scope="col">Degree</th>
-                    <th scope="col">Position</th>
-                    <th scope="col">Role</th>
+                    <th scope="col">Group</th>
+                    <th scope="col">Speciality</th>
+                    <th scope="col">Number of students</th>
+                    <th scope="col">Semester</th>
+                    <th scope="col">Course</th>
+                    <th scope="col">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each = "teacher : ${teachers}">
-                    <td th:text="${teacher.id}"></td>
-                    <td th:text="${teacher.name}"></td>
-                    <td th:text="${teacher.surname}"></td>
-                    <td th:text="${teacher.email}"></td>
-                    <td th:text="${teacher.department_id}"></td>
-                    <td th:text="${teacher.degree}"></td>
-                    <td th:text="${teacher.position}"></td>
-                    <td th:text="${teacher.role_id}"></td>
+                <tr th:each = "group : ${groups}">
+                    <td>
+							<span class="custom-checkbox">
+								<input type="checkbox" id="checkbox1" name="options[]" value="1">
+								<label for="checkbox1"></label>
+							</span>
+                    </td>
+                    <td th:text="${group.id}"></td>
+                    <td th:text="${group.group_name}"></td>
+                    <td th:text="${group.speciality}"></td>
+                    <td th:text="${group.number_of_students}"></td>
+                    <td th:text="${group.semester}"></td>
+                    <td th:text="${group.course}"></td>
+                    <td>
+                        <a href="#editModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                        <a th:href="@{/groups/delete(id=${group.id})}" class="delete" ><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                    </td>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+
 <!-- Edit Modal HTML -->
-<div id="addEmployeeModal" class="modal fade">
+<div id="addModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form>
+            <form class="needs-validation" novalidate="" action="/groups/add" method = "post">
                 <div class="modal-header">
                     <h4 class="modal-title">Add </h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label>Name</label>
-                        <input type="text" class="form-control" required>
+                        <label  class="form-label">Group Name</label>
+                        <input type="text" class="form-control" name="group_name" placeholder="" value="" required="">
                     </div>
                     <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" class="form-control" required>
+                        <label  class="form-label">Speciality</label>
+                        <input type="text" class="form-control" name="speciality" placeholder="" value="" required="">
                     </div>
                     <div class="form-group">
-                        <label>Address</label>
-                        <textarea class="form-control" required></textarea>
+                        <label  class="form-label">Number of students</label>
+                        <input type="text" class="form-control" name="number_of_students" placeholder="" value="" required="">
                     </div>
                     <div class="form-group">
-                        <label>Phone</label>
-                        <input type="text" class="form-control" required>
+                        <label  class="form-label">Year of study </label>
+                        <select class="form-select" name="course" required="">
+                            <option value="">Select</option>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label  class="form-label">Semester</label>
+                        <select class="form-select" name="semester" required="">
+                            <option value="">Select</option>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                            <option>6</option>
+                            <option>7</option>
+                            <option>8</option>
+                        </select>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                    <input type="submit" class="btn btn-success" value="Add">
+                    <input type="submit" class="btn btn-outline-secondary" value="Add">
                 </div>
             </form>
         </div>
     </div>
 </div>
 <!-- Edit Modal HTML -->
-<div id="editEmployeeModal" class="modal fade">
+<div id="editModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form>
+            <form class="needs-validation" novalidate="" action="" method = "">
                 <div class="modal-header">
                     <h4 class="modal-title">Edit Employee</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label>Name</label>
-                        <input type="text" class="form-control" required>
+                        <label  class="form-label">Group Name</label>
+                        <input type="text" class="form-control" name="group_name" placeholder="" value="" required="">
                     </div>
                     <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" class="form-control" required>
+                        <label  class="form-label">Speciality</label>
+                        <input type="text" class="form-control" name="speciality" placeholder="" value="" required="">
                     </div>
                     <div class="form-group">
-                        <label>Address</label>
-                        <textarea class="form-control" required></textarea>
+                        <label  class="form-label">Number of students</label>
+                        <input type="text" class="form-control" name="number_of_students" placeholder="" value="" required="">
                     </div>
                     <div class="form-group">
-                        <label>Phone</label>
-                        <input type="text" class="form-control" required>
+                        <label  class="form-label">Year of study </label>
+                        <select class="form-select" name="course" required="">
+                            <option value="">Select</option>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                        </select>
                     </div>
-                </div>
+                    <div class="form-group">
+                        <label  class="form-label">Semester</label>
+                        <select class="form-select" name="semester" required="">
+                            <option value="">Select</option>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                            <option>6</option>
+                            <option>7</option>
+                            <option>8</option>
+                        </select>
+                    </div>
                 <div class="modal-footer">
                     <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                    <input type="submit" class="btn btn-info" value="Save">
+                    <input type="submit" class="btn btn-outline-secondary" value="Save">
                 </div>
             </form>
         </div>
     </div>
 </div>
 <!-- Delete Modal HTML -->
-<div id="deleteEmployeeModal" class="modal fade">
+<div id="deleteModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
             <form>
                 <div class="modal-header">
-                    <h4 class="modal-title">Delete Employee</h4>
+                    <h4 class="modal-title">Delete Group</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
