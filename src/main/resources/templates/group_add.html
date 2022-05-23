@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th = "http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link th:href="@{/css/template.css}" rel="stylesheet" />
+
+    <style>
+        body{
+            background-color: white;
+        }
+        .nav-link{
+            color: black;
+        }
+        .nav-scroller .nav {
+            display: flex;
+            flex-wrap: nowrap;
+            padding-bottom: 1rem;
+            margin-top: -1px;
+            overflow-x: auto;
+            text-align: center;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+        .bs-example{
+            margin: 20px;
+            float: left;
+        }
+        .container{
+            margin-left: 200px;
+        }
+    </style>
+
+</head>
+<body>
+
+<div class="bs-example">
+    <nav class="nav flex-column">
+        <a th:href="@{/group/add}" class="nav-item nav-link active">Create new</a>
+        <a th:href="@{/groups}" class="nav-item nav-link">Groups list</a>
+        <!--        <a th:href="@{/groups_edit}" class="nav-item nav-link">Edit </a>-->
+
+            </nav>
+        </div>
+
+        <div class="container">
+            <main>
+                <div class="col-md-7 col-lg-8">
+                    <h4 class="mb-3">New Group</h4>
+                    <form class="needs-validation" novalidate="" action="/group/add" method = "post">
+                        <div class="row g-3">
+                            <div class="col-sm-6">
+                                <label  class="form-label">Group Name</label>
+                                <input type="text" class="form-control" name="group_name" placeholder="" value="" required="">
+                                <div class="invalid-feedback">
+                                    Valid group name is required.
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label  class="form-label">Speciality</label>
+                                <input type="text" class="form-control" name="speciality" placeholder="" value="" required="">
+                                <div class="invalid-feedback">
+                                    Valid speciality is required.
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label  class="form-label">Number of students</label>
+                                <input type="text" class="form-control" name="number_of_students" placeholder="" value="" required="">
+                                <div class="invalid-feedback">
+                                    Valid number is required.
+                                </div>
+                            </div>
+
+                            <div class="col-md-5">
+                                <label  class="form-label">Year of study </label>
+                                <select class="form-select" name="course" required="">
+                                    <option value="">Choose...</option>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    Please select a valid year.
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label  class="form-label">Semester</label>
+                                <select class="form-select" name="semester" required="">
+                                    <option value="">Choose...</option>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                    <option>6</option>
+                                    <option>7</option>
+                                    <option>8</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    Please provide a valid semester.
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="my-4">
+
+                        <button class="btn btn-outline-secondary" type="submit" >Create group</button>
+                    </form>
+                </div>
+            </main>
+        </div>
+
+
+        </div>
+
+
+        <script src="/docs/5.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+
+        <script src="form-validation.js"></script>
+
+
+
+        </body>
+
+        </html>

@@ -1,0 +1,28 @@
+<div class="m-4">
+
+    <ul class="nav nav-tabs mt-5">
+        <li class="nav-item">
+            <a href="#" class="nav-link">Home</a>
+        </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link active">Teaching Staff</a>
+        </li>
+        <li class="nav-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Directories</a>
+            <div class="dropdown-menu">
+                <a href=" " class="dropdown-item">Faculties</a>
+                <a href=" " class="dropdown-item">Departments</a>
+                <a href=" " class="dropdown-item">Groups</a>
+                <a href=" " class="dropdown-item">Disciplines</a>
+            </div>
+        </li>
+        <li class="nav-item dropdown ms-auto" sec:authorize="isAuthenticated()">
+            <a th:href="@{/signUp}" th:text ="${#authentication.getName()} " class="nav-link dropdown-toggle" data-bs-toggle="dropdown"></a>
+
+            <div class="dropdown-menu dropdown-menu-end"><sign-out>
+                <a th:href="@{/logout}" class="dropdown-item">SIGN OUT</a></sign-out>
+            </div>
+        </li>
+    </ul>
+    <hr>
+</div>

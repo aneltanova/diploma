@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th = "http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+<!--    <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/checkout/">-->
+<!--    <script src="/docs/5.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>-->
+<!--    <script src="form-validation.js"></script>-->
+<!--    <link href="form-validation.css" rel="stylesheet">-->
+
+    <link href="/docs/5.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <style>
+        body{
+            background-color: white;
+        }
+        .nav-link{
+            color: black;
+        }
+        .nav-scroller .nav {
+            display: flex;
+            flex-wrap: nowrap;
+            padding-bottom: 1rem;
+            margin-top: -1px;
+            overflow-x: auto;
+            text-align: center;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+        .bs-example{
+            margin: 20px;
+            float: left;
+        }
+        .container{
+            margin-left: 200px;
+        }
+    </style>
+
+    <!--    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $.get("/nav_admin.html", function(data){
+            $("#nav").replaceWith(data);
+        });
+    </script>
+
+</head>
+<body class="bg-light">
+
+
+<!--ЗДЕСЬ ДОЛЖНА БЫТЬ НАВИГАЦИЯЯЯЯЯЯЯЯЯЯЯЯ-->
+<!--    <div id="nav">    </div>  -->
+
+
+ <div class="m-4">
+
+    <ul class="nav nav-tabs mt-5">
+        <li class="nav-item">
+            <a th:href="@{/}" class="nav-link">Home</a>
+        </li>
+        <li class="nav-item">
+            <a th:href="@{/users_page.html}" class="nav-link active">Teaching Staff</a>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Directories</a>
+            <div class="dropdown-menu">
+                <a th:href="@{/}" class="dropdown-item">Faculties</a>
+                <a th:href="@{/}" class="dropdown-item">Departments</a>
+                <a th:href="@{/}" class="dropdown-item">Groups</a>
+                <a th:href="@{/}" class="dropdown-item">Disciplines</a>
+            </div>
+        </li>
+        <li class="nav-item dropdown ms-auto" sec:authorize="isAuthenticated()">
+            <a th:href="@{/signUp}" th:text ="${#authentication.getName()} " class="nav-link dropdown-toggle" data-bs-toggle="dropdown"></a>
+
+            <div class="dropdown-menu dropdown-menu-end"><sign-out>
+                <a th:href="@{/logout}" class="dropdown-item">SIGN OUT</a></sign-out>
+            </div>
+        </li>
+    </ul>
+    <hr>
+</div>
+
+
+<div class="bs-example">
+    <nav class="nav flex-column">
+        <a href="#" class="nav-item nav-link active">Create new</a>
+        <a href="#" class="nav-item nav-link">Teachers list</a>
+        <a href="#" class="nav-item nav-link">Edit </a>
+    </nav>
+</div>
+
+<div class="container">
+    <main>
+        <div class="col-md-7 col-lg-8">
+            <h4 class="mb-3">New Teacher</h4>
+            <form class="needs-validation" novalidate="" action="/signUp" method = "post">
+                <div class="row g-3">
+                    <div class="col-sm-6">
+                        <label  class="form-label">First name</label>
+                        <input type="text" class="form-control" name="name" placeholder="" value="" required="">
+                        <div class="invalid-feedback">
+                            Valid first name is required.
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <label  class="form-label">Last name</label>
+                        <input type="text" class="form-control" name="surname" placeholder="" value="" required="">
+                        <div class="invalid-feedback">
+                            Valid last name is required.
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <label  class="form-label">Email</label>
+                        <input type="email" class="form-control" name="email" placeholder="<id>@iitu.edu.kz">
+                        <div class="invalid-feedback">
+                            Please enter a valid email address.
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <label  class="form-label">Password</label>
+                        <input type="password" class="form-control" name="password" placeholder="password" required="">
+                        <div class="invalid-feedback">
+                            Please enter your password.
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <label  class="form-label">Degree</label>
+                        <input type="email" class="form-control" name="degree" placeholder="">
+                        <div class="invalid-feedback">
+                            Please enter a valid degree.
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Position</label>
+                        <select class="form-select" name="position" required="">
+                            <option value="">Choose...</option>
+                            <option>Instructor</option>
+                            <option>Assistant Professor</option>
+                            <option>Associate Professor</option>
+                            <option>Professor</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Please provide a valid state.
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-5">
+                        <label  class="form-label">Department</label>
+                        <select class="form-select" name="department_id" required="">
+                            <option value="">Choose...</option>
+                            <option>Media communications and history of Kazakhstan</option>
+                            <option>Information Systems</option>
+                            <option>Mathematical Computer Modelling</option>
+                            <option>Radio Engineering</option>
+                            <option>Economics and business</option>
+                            <option>Department of Languages</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Please select a valid department.
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label  class="form-label">Role</label>
+                        <select class="form-select" name="rolename" required="">
+                            <option value="">Choose...</option>
+                            <option>ADMIN</option>
+                            <option>HEAD_OF_DEP</option>
+                            <option>TEACHER</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Please provide a valid role.
+                        </div>
+                    </div>
+                </div>
+                <hr class="my-4">
+                <button class="btn btn-outline-secondary" type="submit" value="signUp">Create user</button>
+            </form>
+        </div>
+    </main>
+</div>
+</body>
+</html>
