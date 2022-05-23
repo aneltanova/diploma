@@ -19,21 +19,15 @@ public class DisciplinesController {
         this.disciplinesRepo = disciplinesRepo;
     }
 
-//    @GetMapping("/findall")
-//    public List<Disciplines> findAll() {
-//        return (List<Disciplines>) disciplinesRepo.findAll();
-//    }
-
-    @GetMapping("/disciplines")
+    @GetMapping("/disciplines/add")
     public String getDisciplinesPage(){
         return "discipline_add";
     }
 
-
-    @PostMapping("/disciplineCreate")
+    @PostMapping("/disciplines")
     public String add(Disciplines discipline) {
         disciplinesRepo.save(discipline);
-        return "home";
+        return "disciplines_list";
     }
 
 //    @GetMapping("/find/{id}")

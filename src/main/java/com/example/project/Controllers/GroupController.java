@@ -1,9 +1,11 @@
 package com.example.project.Controllers;
 
 import com.example.project.Modules.Groups;
+import com.example.project.Modules.Teacher;
 import com.example.project.Repositories.GroupsRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,20 +21,22 @@ public class GroupController {
         this.groupsRepo = groupsRepo;
     }
 
-    @GetMapping("/groups")
-    public String getGroupsPage(){
+    @GetMapping("/group/add")
+    public String addGroup(){
         return "group_add";
     }
 
-    @GetMapping("/groupsFindAll")
-    public List<Groups> findAll() {
-        return (List<Groups>) groupsRepo.findAll();
+    @GetMapping("/groups")
+    public String getGroupsPage(Model model){
+        List<Groups> groups = groupsRepo.findAll();
+        model.addAttribute("groups", groups);
+        return "groups_list";
     }
 
-    @PostMapping("/groupCreate")
+    @PostMapping("/group/add")
     public String add(Groups speciality) {
         groupsRepo.save(speciality);
-        return "home";
+        return "group_add";
     }
 
 //    @GetMapping("/find/{id}")

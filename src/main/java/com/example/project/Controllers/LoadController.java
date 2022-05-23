@@ -1,13 +1,7 @@
 package com.example.project.Controllers;
 
-import com.example.project.Modules.Departments;
-import com.example.project.Modules.Disciplines;
-import com.example.project.Modules.Groups;
-import com.example.project.Modules.Load;
-import com.example.project.Repositories.DepartmentsRepo;
-import com.example.project.Repositories.DisciplinesRepo;
-import com.example.project.Repositories.GroupsRepo;
-import com.example.project.Repositories.LoadRepo;
+import com.example.project.Modules.*;
+import com.example.project.Repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -25,30 +20,38 @@ public class LoadController {
 
     @Autowired
     private GroupsRepo groupRepo;
-    private DepartmentsRepo departmentsRepo;
+
+    @Autowired
+    private TeacherRepository teacherRepo;
+
+    @Autowired
     private DisciplinesRepo disciplinesRepo;
 
+    private List<LoadContainer> loadContainer = new ArrayList<LoadContainer>();
 
-//    @GetMapping("/findall")
-//    public List<Load> findAll() {
-//        return (List<Load>) loadRepo.findAll();
-//    }
 
-    @GetMapping("/load")
+    @GetMapping("/load_create")
     public String getLoadPage(Model model){
         List<Groups> groups = groupRepo.findAll();
-        List<Departments> departments = departmentsRepo.findAll();
         List<Disciplines> disciplines = disciplinesRepo.findAll();
 
         model.addAttribute("groups", groups);
         model.addAttribute("disciplines", disciplines);
-        model.addAttribute("departments", departments);
 
+        return "load_create";
+    }
 
+    @PostMapping("/load")
+    public String addLoadContent(Model model, Disciplines discipline, Groups group){
+        LoadContainer temp = new LoadContainer(discipline, group);
 
+        loadContainer.add(temp);
+
+        model.addAttribute("loadContainer", loadContainer);
 
         return "load";
     }
+
 
     @PostMapping("/createLoad")
     public Load add(@RequestBody Load load) {
