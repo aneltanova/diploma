@@ -91,22 +91,22 @@
                     <td>
                         <form th:id="${'updateForm' + discipline.id}" action="/disciplines/edit" method="post"></form>
                         <input type="hidden" name="id" th:value="${discipline.id}" th:form="${'updateForm' + discipline.id}"/>
-                        <input class="field" name="discipline" th:value="${discipline.discipline}" th:form="${'updateForm' + discipline.discipline}"/>
+                        <input class="field" name="discipline" th:value="${discipline.discipline}" th:form="${'updateForm' + discipline.id}"/>
                     </td>
                     <td>
-                        <input class="field" name="credits" th:value="${discipline.credits}" th:form="${'updateForm' + discipline.credits}"/>
+                        <input class="field" name="credits" th:value="${discipline.credits}" th:form="${'updateForm' + discipline.id}"/>
                     </td>
                     <td>
-                        <input class="field" name="laboratory_hours" th:value="${discipline.laboratory_hours}" th:form="${'updateForm' + discipline.laboratory_hours}"/>
+                        <input class="field" name="laboratory_hours" th:value="${discipline.laboratory_hours}" th:form="${'updateForm' + discipline.id}"/>
                     </td>
                     <td>
-                        <input class="field" name="lecture_hours" th:value="${discipline.lecture_hours}" th:form="${'updateForm' + discipline.lecture_hours}"/>
+                        <input class="field" name="lecture_hours" th:value="${discipline.lecture_hours}" th:form="${'updateForm' + discipline.id}"/>
                     </td>
                     <td>
-                        <input class="field" name="practice_hours" th:value="${discipline.practice_hours}" th:form="${'updateForm' + discipline.practice_hours}"/>
+                        <input class="field" name="practice_hours" th:value="${discipline.practice_hours}" th:form="${'updateForm' + discipline.id}"/>
                     </td>
                     <td>
-                        <input class="field" name="sis" th:value="${discipline.sis}" th:form="${'updateForm' + discipline.sis}"/>
+                        <input class="field" name="sis" th:value="${discipline.sis}" th:form="${'updateForm' + discipline.id}"/>
                     </td>
 
 

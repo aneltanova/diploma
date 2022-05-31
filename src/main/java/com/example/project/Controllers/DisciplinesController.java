@@ -31,7 +31,6 @@ public class DisciplinesController {
         return "disciplines_edit";
     }
 
-
     @PostMapping("/disciplines/add")
     public String add(Disciplines discipline) {
         disciplinesRepo.save(discipline);
@@ -44,4 +43,9 @@ public class DisciplinesController {
         return "redirect:/disciplines";
     }
 
+    @PostMapping("/disciplines/edit")
+    public String update(@ModelAttribute Disciplines discipline) {
+        disciplinesRepo.save(discipline);
+        return "redirect:/disciplines";
+    }
 }
