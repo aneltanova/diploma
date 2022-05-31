@@ -69,47 +69,18 @@
 
 
     </style>
-    <link href="form-validation.css" rel="stylesheet">
 </head>
 <body>
 
-<div class="m-4">
-
-    <!-- ADMIN -->
-
-    <ul class="nav nav-tabs mt-5">
-        <li class="nav-item">
-            <a href="#" class="nav-link">Home</a>
-        </li>
-        <li class="nav-item">
-            <a href="#" class="nav-link active">Teaching Staff</a>
-        </li>
-        <li class="nav-item dropdown">
-            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Directories</a>
-            <div class="dropdown-menu">
-                <a href=" " class="dropdown-item">Faculties</a>
-                <a href=" " class="dropdown-item">Departments</a>
-                <a href=" " class="dropdown-item">Groups</a>
-                <a href=" " class="dropdown-item">Disciplines</a>
-            </div>
-        </li>
-        <li class="nav-item dropdown ms-auto">
-            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">USER EMAIL</a>
-            <div class="dropdown-menu dropdown-menu-end">
-                <!-- <a href="#" class="dropdown-item">Settings</a> -->
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">Logout</a>
-            </div>
-        </li>
-    </ul>
-    <hr>
-</div>
+<div th:insert="~{fragments :: teacher_navbar}" sec:authorize="hasRole('ROLE_TEACHER')"> </div>
+<div th:insert="~{fragments :: head_navbar}" sec:authorize="hasRole('ROLE_HEAD_DEP')"> </div>
+<div th:insert="~{fragments :: admin_navbar}" sec:authorize="hasRole('ROLE_ADMIN')"> </div>
 
 
 <div class="bs-example">
     <nav class="nav flex-column">
-        <a href="#" class="nav-item nav-link">Create new</a>
-        <a href="#" class="nav-item nav-link active">Teachers list</a>
+        <a th:href="@{/load_create}" class="nav-item nav-link">Create new</a>
+        <a th:href="@{/load_list}" class="nav-item nav-link active">Display load</a>
         <a href="#" class="nav-item nav-link">Edit </a>
     </nav>
 </div>
@@ -122,23 +93,52 @@
                 <!-- <thead class="thead-dark"> -->
                 <tr>
                     <th scope="col">discipline</th>
+                    <th scope="col">total hours</th>
+                    <th scope="col">lecture hours</th>
+                    <th scope="col">practice hours</th>
+                    <th scope="col">laboratory hours</th>
+                    <th scope="col">SIS</th>
+                    <th scope="col">credits</th>
                     <th scope="col">group</th>
-                    <th scope="col">number</th>
+                    <th scope="col">number of students</th>
+                    <th scope="col">group speciality</th>
+                    <th scope="col">Teacher</th>
 
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each = "load : ${loadContainer}">
-                    <td th:text="${load.disciplines}"></td>
-                    <td th:text="${load.groups}"></td>
-                    <td th:text="${load.groups}"></td>
-
+                    <td th:text="${load.discipline.discipline}"></td>
+                    <td th:text="${load.discipline.totalhours()}"></td>
+                    <td th:text="${load.discipline.lecture_hours}"></td>
+                    <td th:text="${load.discipline.practice_hours}"></td>
+                    <td th:text="${load.discipline.laboratory_hours}"></td>
+                    <td th:text="${load.discipline.sis}"></td>
+                    <td th:text="${load.discipline.credits}"></td>
+                    <td th:text="${load.group.group_name}"></td>
+                    <td th:text="${load.group.number_of_students}"></td>
+                    <td th:text="${load.group.speciality}"></td>
+                    <td th:text="${load.teacher.fullName()}"></td>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
 
+<form class="needs-validation" novalidate="" action="/createLoad" method = "post" >
+<!--    <div class="col-md-5">-->
+<!--        <label class="form-label">Academic year</label>-->
+<!--        <select class="form-select" name="academ_year" required="">-->
+<!--            <option value="">Choose...</option>-->
+<!--            <option>2021-2022</option>-->
+<!--            <option>2022-2023</option>-->
+<!--        </select>-->
+<!--        <div class="invalid-feedback">-->
+<!--            Please provide a valid state.-->
+<!--        </div>-->
+<!--    </div>-->
+    <button class="btn btn-outline-secondary" type="submit" >Add</button>
 
+</form>
 </body>
 </html>

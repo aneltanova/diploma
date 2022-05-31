@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,11 +22,6 @@ public class GroupController {
         this.groupsRepo = groupsRepo;
     }
 
-    @GetMapping("/groups/add")
-    public String addGroup(){
-        return "groups_edit";
-    }
-
     @GetMapping("/groups")
     public String getGroupsPage(Model model){
         List<Groups> groups = groupsRepo.findAll();
@@ -33,32 +29,27 @@ public class GroupController {
         return "groups_edit";
     }
 
-    @PostMapping("/groups/add")
-    public String add(Groups speciality) {
-        groupsRepo.save(speciality);
-        return "redirect:/groups";
+    @GetMapping("/groups/add")
+    public String addGroup(){
+        return "groups_edit";
     }
 
-//    @GetMapping("/groups/edit")
-
+    @PostMapping("/groups/add")
+    public String add(Groups group) {
+        groupsRepo.save(group);
+        return "redirect:/groups";
+    }
 
     @GetMapping("/groups/delete")
     public String delete(@RequestParam long id) {
         groupsRepo.deleteById(id);
         return "redirect:/groups";
     }
-//    @PutMapping("/update/{id}")
-//    public Groups update(@PathVariable("id") long id, @RequestBody Groups group) {
-//        group.setId(id);
-//        groupsRepo.save(group);
-//        return group;
-//    }
 
-//    @GetMapping("/find/{id}")
-//    public Optional<Groups> find(@PathVariable("id") long id) {
-//        return groupsRepo.findById(id);
-//    }
-//
-//
+    @PostMapping("/groups/edit")
+    public String update(@ModelAttribute Groups group) {
+        groupsRepo.save(group);
+        return "redirect:/groups";
+    }
 
 }

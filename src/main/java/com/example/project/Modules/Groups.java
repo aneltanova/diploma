@@ -11,22 +11,22 @@ public class Groups {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id", nullable = false)  // updatable = false
+//    @Column(name="id", nullable = false)  // updatable = false
     private long id;
 
-    @Column(name = "group_name", nullable = false, columnDefinition = "TEXT", unique = true)
+//    @Column(name = "group_name",columnDefinition = "TEXT", unique = true)
     private String group_name;
 
-    @Column(name = "number_of_students", nullable = false, columnDefinition = "NUMERIC")
+//    @Column(name = "number_of_students",  columnDefinition = "NUMERIC")
     private long number_of_students;
 
-    @Column(name = "speciality", nullable = false, columnDefinition = "TEXT")
+//    @Column(name = "speciality", nullable = false, columnDefinition = "TEXT")
     private String speciality;
 
-    @Column(name = "course", nullable = false, columnDefinition = "NUMERIC")
+//    @Column(name = "course", nullable = false, columnDefinition = "NUMERIC")
     private long course;
 
-    @Column(name = "semester", nullable = false, columnDefinition = "NUMERIC")
+//    @Column(name = "semester", nullable = false, columnDefinition = "NUMERIC")
     private long semester;
 
 //    public Groups(){   }

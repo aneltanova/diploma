@@ -32,4 +32,8 @@ public class Teacher {
     @JoinColumn(name = "role_id")
     private Role role;
 
+    public String fullName(){
+        return getSurname() + " " + getName();
+    }
+
 }

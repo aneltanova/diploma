@@ -21,14 +21,14 @@ public class TeacherController {
     public String getUsersPage(Model model){
         List<Teacher> teachers = teacherRepository.findAll();
         model.addAttribute("teachers", teachers);
-        return "users_page";
+        return "users_edit";
     }
 
-    @DeleteMapping("/users/delete/{id}")
-    public void delete(@PathVariable("id") long id){
+    @GetMapping("/users/delete")
+    public String delete(@RequestParam long id) {
         teacherRepository.deleteById(id);
+        return "redirect:/users";
     }
-
     @PutMapping("/users/update/{id}")
     public Teacher update(@PathVariable("id") long id, @RequestBody Teacher teacher, @RequestBody Role role){
         teacher.setRole(role);

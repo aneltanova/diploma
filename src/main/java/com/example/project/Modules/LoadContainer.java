@@ -4,14 +4,20 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.io.Serializable;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class LoadContainer implements Serializable {
-    private Disciplines disciplines;
-    private Groups groups;
+@Component
+@Scope("session")
+public class LoadContainer {
+
+    private Disciplines discipline;
+
+    private Groups group;
+
+    private Teacher teacher;
 }

@@ -18,12 +18,12 @@ public class SignUpController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @GetMapping("/signUp")
+    @GetMapping("/users/add")
     public String getSignUpPage(){
         return "user_add";
     }
 
-    @PostMapping("/signUp")
+    @PostMapping("/users/add")
     public String signUpUser(Teacher teacher, Role role){
         if (role.getRolename().equals("ADMIN")){
             role.setRole_id(1L);
@@ -36,7 +36,6 @@ public class SignUpController {
         teacher.setPassword(passwordEncoder.encode(teacher.getPassword()));
         teacher.setRole(role);
         teacherRepository.save(teacher);
-        return "home";
-        //redirect:/signUp
+        return "redirect:/users";
     }
 }

@@ -1,10 +1,204 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th = "http://www.thymeleaf.org">
 
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/directories.css}" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="/docs/5.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(function(){
+            // Activate tooltip
+            $('[data-toggle="tooltip"]').tooltip();
+
+            $("#search").on("keyup", function() {
+                var term = $(this).val().toLowerCase();
+                $("table tbody tr").each(function(){
+                    $row = $(this);
+                    var name = $row.find("td:nth-child(1)").text().toLowerCase();
+                    console.log(name);
+                    if(name.search(term) < 0){
+                        $row.hide();
+                    } else{
+                        $row.show();
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+
+<div th:insert="~{fragments :: teacher_navbar}" sec:authorize="hasRole('ROLE_TEACHER')"> </div>
+<div th:insert="~{fragments :: head_navbar}" sec:authorize="hasRole('ROLE_HEAD_DEP')"> </div>
+<div th:insert="~{fragments :: admin_navbar}" sec:authorize="hasRole('ROLE_ADMIN')"> </div>
+
+
+<div class="container-xl">
+    <div class="table-responsive">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h2>Manage Disciplines</h2>
+                    </div>
+                    <!--                    <div class="search-box">-->
+                    <!--                        <div class="input-group">-->
+                    <!--                            <input type="text" id="search" class="form-control" placeholder="Search by group">-->
+                    <!--                            <span class="input-group-addon"><i class="material-icons">&#xE8B6;</i></span>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
+                    <div class="col-sm-6">
+                        <a href="#addModal" class="btn btn-outline-info" data-toggle="modal"><i class="material-icons">&#xE146;</i> <span>New Disciplines</span></a>
+                    </div>
+                </div>
+            </div>
+
+            <table class="table table-striped table-hover">
+                <thead>
+                <tr>
+                    <th>Discipline</th>
+                    <th>Credits</th>
+                    <th>Laboratory hours</th>
+                    <th >Lecture hours</th>
+                    <th>Practice hours</th>
+                    <th>SIS</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+
+<!--                <td th:text="${discipline.id}"></td>-->
+<!--                <td th:text="${discipline.discipline}"></td>-->
+<!--                <td th:text="${discipline.credits}"></td>-->
+<!--                <td th:text="${discipline.laboratory_hours}"></td>-->
+<!--                <td th:text="${discipline.lecture_hours}"></td>-->
+<!--                <td th:text="${discipline.practice_hours}"></td>-->
+<!--                <td th:text="${discipline.sis}"></td>-->
+
+                <tr th:each = "discipline : ${disciplines}">
+                    <td>
+                        <form th:id="${'updateForm' + discipline.id}" action="/disciplines/edit" method="post"></form>
+                        <input type="hidden" name="id" th:value="${discipline.id}" th:form="${'updateForm' + discipline.id}"/>
+                        <input class="field" name="discipline" th:value="${discipline.discipline}" th:form="${'updateForm' + discipline.discipline}"/>
+                    </td>
+                    <td>
+                        <input class="field" name="credits" th:value="${discipline.credits}" th:form="${'updateForm' + discipline.credits}"/>
+                    </td>
+                    <td>
+                        <input class="field" name="laboratory_hours" th:value="${discipline.laboratory_hours}" th:form="${'updateForm' + discipline.laboratory_hours}"/>
+                    </td>
+                    <td>
+                        <input class="field" name="lecture_hours" th:value="${discipline.lecture_hours}" th:form="${'updateForm' + discipline.lecture_hours}"/>
+                    </td>
+                    <td>
+                        <input class="field" name="practice_hours" th:value="${discipline.practice_hours}" th:form="${'updateForm' + discipline.practice_hours}"/>
+                    </td>
+                    <td>
+                        <input class="field" name="sis" th:value="${discipline.sis}" th:form="${'updateForm' + discipline.sis}"/>
+                    </td>
+
+
+                    <td>
+                        <button id="editBtn" class="edit" type="button" onclick="editRow(this)"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></button>
+                        <button id="deleteBtn" class="delete" type="button" data-toggle="modal"
+                                data-target="#deleteModal" th:attr="data-whatever=${discipline.id}"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
+                        </button>
+
+                        <button id="saveBtn" class="edit" type="submit"  th:form="${'updateForm' + discipline.id}">
+                            <i class="fa fa-check fa-2x"></i>
+                        </button>
+                        <button id="cancelBtn" class="delete" type="button"  onclick="cancelRow(this)">
+                            <i class="fa fa-times fa-2x"></i>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Add Modal HTML -->
+<div id="addModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form class="needs-validation" novalidate="" action="/disciplines/add" method = "post">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add </h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label  class="form-label">Discipline Name</label>
+                        <input type="text" class="form-control" name="discipline" placeholder="" value="" required="">
+                    </div>
+                    <div class="form-group">
+                        <label  class="form-label">Credits</label>
+                        <input type="text" class="form-control" name="credits" placeholder="" value="" required="">
+                    </div>
+                    <div class="form-group">
+                        <label  class="form-label">Laboratory hours</label>
+                        <input type="text" class="form-control" name="laboratory_hours" placeholder="" value="" required="">
+                    </div>
+                    <div class="form-group">
+                        <label  class="form-label">Lecture hours</label>
+                        <input type="text" class="form-control" name="lecture_hours" placeholder="" value="" required="">
+                    </div>
+                    <div class="form-group">
+                        <label  class="form-label">Prectice hours</label>
+                        <input type="text" class="form-control" name="practice_hours" placeholder="" value="" required="">
+                    </div>
+                    <div class="form-group">
+                        <label  class="form-label">SIS</label>
+                        <input type="text" class="form-control" name="sis" placeholder="" value="" required="">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                    <input type="submit" class="btn btn-outline-secondary" value="Add">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete</h5>
+                <button type="button" class="close" data-dismiss="modal"></button>
+            </div>
+            <div id="deleteModalBody" class="modal-body">
+                <p>Are you sure you want to delete this record?</p>
+            </div>
+            <div class="modal-footer">
+                <form id="deleteForm" action="/disciplines/delete" method="get"></form>
+                <input type="hidden" name="id" form="deleteForm"/>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-danger" form="deleteForm">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script type="text/javascript" th:src="@{/script/script.js}"></script>
 </body>
 </html>

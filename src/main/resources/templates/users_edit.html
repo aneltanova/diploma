@@ -51,16 +51,11 @@
             <div class="table-title">
                 <div class="row">
                     <div class="col-sm-6">
-                        <h2>Manage Groups</h2>
+                        <h2>Manage Teachers</h2>
                     </div>
-<!--                    <div class="search-box">-->
-<!--                        <div class="input-group">-->
-<!--                            <input type="text" id="search" class="form-control" placeholder="Search by group">-->
-<!--                            <span class="input-group-addon"><i class="material-icons">&#xE8B6;</i></span>-->
-<!--                        </div>-->
-<!--                    </div>-->
+
                     <div class="col-sm-6">
-                        <a href="#addModal" class="btn btn-outline-info" data-toggle="modal"><i class="material-icons">&#xE146;</i> <span>New Group</span></a>
+                        <a th:href="@{/users/add}" class="btn btn-outline-info" ><i class="material-icons">&#xE146;</i> <span>New Teacher</span></a>
                     </div>
                 </div>
             </div>
@@ -68,42 +63,46 @@
             <table class="table table-striped table-hover">
                 <thead>
                 <tr>
-                    <!--                    <th scope="col">ID</th>-->
-                    <th >Group</th>
-                    <th >Speciality</th>
-                    <th >Number of students</th>
-                    <th >Semester</th>
-                    <th >Course</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Department</th>
+                    <th>Degree</th>
+                    <th >Position</th>
+<!--                    <th>Role</th>-->
                     <th >Actions</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each = "group : ${groups}">
-                    <td>
-                        <form th:id="${'updateForm' + group.id}" th:action="@{/groups/edit}" method="post"></form>
-                        <input type="hidden" name="id" th:value="${group.id}" th:form="${'updateForm' + group.id}"/>
-                        <input class="field" name="group_name" th:value="${group.group_name}" th:form="${'updateForm' + group.id}"/>
-                    </td>
-                    <td>
-                        <input class="field" name="speciality" th:value="${group.speciality}" th:form="${'updateForm' + group.id}"/>
-                    </td>
-                    <td>
-                        <input class="field" name="number_of_students" th:value="${group.number_of_students}" th:form="${'updateForm' + group.id}"/>
-                    </td>
-                    <td>
-                        <input class="field" name="semester" th:value="${group.semester}" th:form="${'updateForm' + group.id}"/>
-                    </td>
-                    <td>
-                        <input class="field" name="course" th:value="${group.course}" th:form="${'updateForm' + group.id}"/>
-                    </td>
 
+                <tr th:each = "teacher : ${teachers}">
+                    <td>
+                        <form th:id="${'updateForm' + teacher.id}" action="/users/edit" method="post"></form>
+                        <input type="hidden" name="id" th:value="${teacher.id}" th:form="${'updateForm' + teacher.id}"/>
+                        <input class="field" name="name" th:value="${teacher.name}" th:form="${'updateForm' + teacher.name}"/>
+                    </td>
+                    <td>
+                        <input class="field" name="surname" th:value="${teacher.surname}" th:form="${'updateForm' + teacher.surname}"/>
+                    </td>
+                    <td>
+                        <input class="field" name="email" th:value="${teacher.email}" th:form="${'updateForm' + teacher.email}"/>
+                    </td>
+                    <td>
+                        <input class="field" name="department_id" th:value="${teacher.department_id}" th:form="${'updateForm' + teacher.department_id}"/>
+                    </td>
+                    <td>
+                        <input class="field" name="degree" th:value="${teacher.degree}" th:form="${'updateForm' + teacher.degree}"/>
+                    </td>
+                    <td>
+                        <input class="field" name="position" th:value="${teacher.position}" th:form="${'updateForm' + teacher.position}"/>
+                    </td>
                     <td>
                         <button id="editBtn" class="edit" type="button" onclick="editRow(this)"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></button>
                         <button id="deleteBtn" class="delete" type="button" data-toggle="modal"
-                                data-target="#deleteModal" th:attr="data-whatever=${group.id}"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
+                                data-target="#deleteModal" th:attr="data-whatever=${teacher.id}"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
                         </button>
 
-                        <button id="saveBtn" class="edit" type="submit"  th:form="${'updateForm' + group.id}">
+                        <button id="saveBtn" class="edit" type="submit"  th:form="${'updateForm' + teacher.id}">
                             <i class="fa fa-check fa-2x"></i>
                         </button>
                         <button id="cancelBtn" class="delete" type="button"  onclick="cancelRow(this)">
@@ -117,61 +116,49 @@
     </div>
 </div>
 
-<!-- Add Modal HTML -->
-<div id="addModal" class="modal fade">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form class="needs-validation" novalidate="" action="/groups/add" method = "post">
-                <div class="modal-header">
-                    <h4 class="modal-title">Add </h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label  class="form-label">Group Name</label>
-                        <input type="text" class="form-control" name="group_name" placeholder="" value="" required="">
-                    </div>
-                    <div class="form-group">
-                        <label  class="form-label">Speciality</label>
-                        <input type="text" class="form-control" name="speciality" placeholder="" value="" required="">
-                    </div>
-                    <div class="form-group">
-                        <label  class="form-label">Number of students</label>
-                        <input type="text" class="form-control" name="number_of_students" placeholder="" value="" required="">
-                    </div>
-                    <div class="form-group">
-                        <label  class="form-label">Year of study </label>
-                        <select class="form-select" name="course" required="">
-                            <option value="">Select</option>
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label  class="form-label">Semester</label>
-                        <select class="form-select" name="semester" required="">
-                            <option value="">Select</option>
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                            <option>6</option>
-                            <option>7</option>
-                            <option>8</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                    <input type="submit" class="btn btn-outline-secondary" value="Add">
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
+<!--&lt;!&ndash; Add Modal HTML &ndash;&gt;-->
+<!--<div id="addModal" class="modal fade">-->
+<!--    <div class="modal-dialog">-->
+<!--        <div class="modal-content">-->
+<!--            <form class="needs-validation" novalidate="" action="/users/add" method = "post">-->
+<!--                <div class="modal-header">-->
+<!--                    <h4 class="modal-title">Add </h4>-->
+<!--                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
+<!--                </div>-->
+<!--                <div class="modal-body">-->
+<!--                    <div class="form-group">-->
+<!--                        <label  class="form-label">Discipline Name</label>-->
+<!--                        <input type="text" class="form-control" name="discipline" placeholder="" value="" required="">-->
+<!--                    </div>-->
+<!--                    <div class="form-group">-->
+<!--                        <label  class="form-label">Credits</label>-->
+<!--                        <input type="text" class="form-control" name="credits" placeholder="" value="" required="">-->
+<!--                    </div>-->
+<!--                    <div class="form-group">-->
+<!--                        <label  class="form-label">Laboratory hours</label>-->
+<!--                        <input type="text" class="form-control" name="laboratory_hours" placeholder="" value="" required="">-->
+<!--                    </div>-->
+<!--                    <div class="form-group">-->
+<!--                        <label  class="form-label">Lecture hours</label>-->
+<!--                        <input type="text" class="form-control" name="lecture_hours" placeholder="" value="" required="">-->
+<!--                    </div>-->
+<!--                    <div class="form-group">-->
+<!--                        <label  class="form-label">Prectice hours</label>-->
+<!--                        <input type="text" class="form-control" name="practice_hours" placeholder="" value="" required="">-->
+<!--                    </div>-->
+<!--                    <div class="form-group">-->
+<!--                        <label  class="form-label">SIS</label>-->
+<!--                        <input type="text" class="form-control" name="sis" placeholder="" value="" required="">-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="modal-footer">-->
+<!--                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">-->
+<!--                    <input type="submit" class="btn btn-outline-secondary" value="Add">-->
+<!--                </div>-->
+<!--            </form>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
 
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -184,7 +171,7 @@
                 <p>Are you sure you want to delete this record?</p>
             </div>
             <div class="modal-footer">
-                <form id="deleteForm" action="/groups/delete" method="get"></form>
+                <form id="deleteForm" action="/users/delete" method="get"></form>
                 <input type="hidden" name="id" form="deleteForm"/>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                 <button type="submit" class="btn btn-danger" form="deleteForm">Delete</button>

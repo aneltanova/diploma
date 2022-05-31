@@ -4,10 +4,10 @@ import com.example.project.Modules.Disciplines;
 import com.example.project.Repositories.DisciplinesRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class DisciplinesController {
@@ -21,29 +21,27 @@ public class DisciplinesController {
 
     @GetMapping("/disciplines/add")
     public String getDisciplinesPage(){
-        return "discipline_add";
+        return "disciplines_edit";
     }
 
-    @PostMapping("/disciplines")
+    @GetMapping("/disciplines")
+    public String getGroupsPage(Model model){
+        List<Disciplines> disciplines = disciplinesRepo.findAll();
+        model.addAttribute("disciplines", disciplines);
+        return "disciplines_edit";
+    }
+
+
+    @PostMapping("/disciplines/add")
     public String add(Disciplines discipline) {
         disciplinesRepo.save(discipline);
-        return "disciplines_list";
+        return "redirect:/disciplines";
     }
 
-//    @GetMapping("/find/{id}")
-//    public Optional<Disciplines> find(@PathVariable("id") long id) {
-//        return disciplinesRepo.findById(id);
-//    }
-//
-//    @DeleteMapping("/delete/{id}")
-//    public void delete(@PathVariable("id") long id) {
-//        disciplinesRepo.deleteById(id);
-//    }
-//
-//    @PutMapping("/update/{id}")
-//    public Disciplines update(@PathVariable("id") long id, @RequestBody Disciplines discipline) {
-//        discipline.setId(id);
-//        disciplinesRepo.save(discipline);
-//        return discipline;
-//    }
+    @GetMapping("/disciplines/delete")
+    public String delete(@RequestParam long id) {
+        disciplinesRepo.deleteById(id);
+        return "redirect:/disciplines";
+    }
+
 }
