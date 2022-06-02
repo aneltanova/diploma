@@ -22,11 +22,18 @@ public class GroupController {
         this.groupsRepo = groupsRepo;
     }
 
-    @GetMapping("/groups")
+    @GetMapping("/groups/edit")
     public String getGroupsPage(Model model){
         List<Groups> groups = groupsRepo.findAll();
         model.addAttribute("groups", groups);
         return "groups_edit";
+    }
+
+    @GetMapping("/groups")
+    public String getGroupsList(Model model){
+        List<Groups> groups = groupsRepo.findAll();
+        model.addAttribute("groups", groups);
+        return "groups_list";
     }
 
     @GetMapping("/groups/add")
@@ -37,19 +44,20 @@ public class GroupController {
     @PostMapping("/groups/add")
     public String add(Groups group) {
         groupsRepo.save(group);
-        return "redirect:/groups";
+        return "redirect:/groups/edit";
     }
 
     @GetMapping("/groups/delete")
     public String delete(@RequestParam long id) {
         groupsRepo.deleteById(id);
-        return "redirect:/groups";
+        return "redirect:/groups/edit";
     }
 
     @PostMapping("/groups/edit")
     public String update(@ModelAttribute Groups group) {
         groupsRepo.save(group);
-        return "redirect:/groups";
+        return "redirect:/groups/edit";
     }
+
 
 }

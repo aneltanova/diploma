@@ -16,8 +16,7 @@ import org.springframework.stereotype.Component;
 public class LoadContainer {
 
     private Disciplines discipline;
-
     private Groups group;
-
     private Teacher teacher;
+
 }

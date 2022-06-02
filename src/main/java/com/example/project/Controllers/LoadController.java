@@ -18,26 +18,14 @@ public class LoadController {
 
     @Autowired
     private LoadRepo loadRepo;
-
     @Autowired
     private GroupsRepo groupRepo;
-
     @Autowired
     private TeacherRepository teacherRepository;
-
     @Autowired
     private DisciplinesRepo disciplinesRepo;
 
-
-
-//    @GetMapping("/findall")
-//    public List<Load> findAll() {
-//        return (List<Load>) loadRepo.findAll();
-//    }
-
     private List<LoadContainer> loadContainer = new ArrayList<LoadContainer>();
-
-
 
     @GetMapping("/load_create")
     public String addLoadPage(Model model){
@@ -54,23 +42,18 @@ public class LoadController {
 
     @PostMapping("/load")
     public String addLoadContent(Model model, LoadContainer load){
-
         if(loadContainer.contains(load)){
-
         }
         else {
             loadContainer.add(load);
         }
         model.addAttribute("loadContainer", loadContainer);
-
         return "load";
     }
 
     @GetMapping("/load")
     public String getLoadPage(Model model){
-
         model.addAttribute("loadContainer", loadContainer);
-
         return "load";
     }
 
@@ -99,23 +82,5 @@ public class LoadController {
         return "load_list";
     }
 
-
-
-//    @GetMapping("/find/{id}")
-//    public Optional<Load> find(@PathVariable("id") long id) {
-//        return loadRepo.findById(id);
-//    }
-//
-//    @DeleteMapping("/delete/{id}")
-//    public void delete(@PathVariable("id") long id) {
-//        loadRepo.deleteById(id);
-//    }
-//
-//    @PutMapping("/update/{id}")
-//    public Load update(@PathVariable("id") long id, @RequestBody Load load) {
-//        load.setId(id);
-//        loadRepo.save(load);
-//        return load;
-//    }
 }
 
