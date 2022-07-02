@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <title></title>
+
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+    <link rel="shortcut icon" th:href="@{favicon.ico}">
+    <script defer th:src="@{/plugins/fontawesome/js/all.min.js}"></script>
+    <link id="theme-style" rel="stylesheet" th:href="@{/css/portal.css}">
+    <script>
+        Date.prototype.toDateInputValue = (function () {
+            var local = new Date(this);
+            local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+            return local.toJSON().slice(0, 10);
+        });
+
+        $(document).ready(function () {
+            $('#start').val(new Date().toDateInputValue());
+        });
+    </script>
+
+</head>
+
+<body class="app">
+
+<!-- NAVBAR -->
+<header class="app-header fixed-top">
+    <div class="app-header-inner">
+        <div class="container-fluid py-2">
+            <div class="app-header-content">
+                <div class="row justify-content-between align-items-center">
+                    <div class="col-auto">
+                        <a id="sidepanel-toggler" class="sidepanel-toggler d-inline-block d-xl-none" href="#">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30"
+                                 role="img">
+                                <title>Menu</title>
+                                <path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10"
+                                      stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path>
+                            </svg>
+                        </a>
+                    </div>
+                    <div class="app-utilities col-auto">
+                        <div class="app-utility-item app-user-dropdown dropdown">
+                            <a class="dropdown-toggle" id="user-dropdown-toggle" data-bs-toggle="dropdown" href="#"
+                               role="button" aria-expanded="false" th:href="@{/#}"
+                               th:text="${#authentication.getName()} ">user</a>
+                            <ul class="dropdown-menu" aria-labelledby="user-dropdown-toggle">
+                                <li><a class="dropdown-item" th:href="@{/logout}">Log Out</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="app-sidepanel" class="app-sidepanel">
+        <div id="sidepanel-drop" class="sidepanel-drop"></div>
+        <div class="sidepanel-inner d-flex flex-column">
+            <a href="#" id="sidepanel-close" class="sidepanel-close d-xl-none">&times;</a>
+            <div class="app-branding">
+                <span class="logo-text">Department.IITU</span>
+
+            </div>
+
+            <nav id="app-nav-main" class="app-nav app-nav-main flex-grow-1">
+                <div th:insert="~{fragments :: teacher_navbar}" sec:authorize="hasRole('ROLE_TEACHER')"></div>
+                <div th:insert="~{fragments :: head_navbar}" sec:authorize="hasRole('ROLE_HEAD_OF_DEP')"></div>
+                <div th:insert="~{fragments :: admin_navbar}" sec:authorize="hasRole('ROLE_ADMIN')"></div>
+
+            </nav>
+
+            <div class="app-sidepanel-footer">
+                <nav class="app-nav app-nav-footer">
+                    <ul class="app-menu footer-menu list-unstyled">
+                        <li class="nav-item">
+                            <span class="nav-link-text" style="margin-left: 50px;">role:<span
+                                    sec:authentication="principal.authorities"></span></span>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/logout}">
+									<span class="nav-icon">
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                             fill="currentColor" class="bi bi-door-closed" viewBox="0 0 16 16">
+											<path
+                                                    d="M3 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v13h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V2zm1 13h8V2H4v13z"/>
+											<path d="M9 9a1 1 0 1 0 2 0 1 1 0 0 0-2 0z"/>
+										</svg>
+									</span>
+                                <span class="nav-link-text">Log Out</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+        </div>
+    </div>
+</header>
+
+<div class="app-wrapper">
+
+    <div class="app-content pt-3 p-md-3 p-lg-4">
+        <h1 class="app-page-title">CREATE INDIVIDUAL REPORT</h1>
+        <div class="app-card app-card-accordion shadow-sm mb-4" style="padding: 50px;">
+
+            <form class="needs-validation" novalidate="" action="/saveReport" method="post">
+                <div class="user_info">
+                    <h6>Full Name: <b><span class="user_detail" th:text="${teacher.fullName()}"></span></b></h6>
+                    <h6>Position: <span class="user_detail" th:text="${teacher.position}"></span></h6>
+                    <h6>Academic degree: <span class="user_detail" th:text="${teacher.degree}"></span></h6>
+                    <h6>Department: <span class="user_detail" th:text="${teacher.department_id}"></span></h6>
+                    <!--                <h6>Staff type: <span class="user_detail" th:text="${teacher.position}" ></span></h6>-->
+                </div>
+
+                <div class="app-card app-card-orders-table shadow-sm mb-5">
+                    <div class="table-responsive">
+                        <div class="table-wrapper">
+                            <div class="table-title">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <h6 class="table-head">Teaching workload</h6>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <table class="table app-table-hover mb-0 text-left">
+                                <thead>
+                                <tr>
+                                    <th class="cell">discipline</th>
+                                    <th class="cell">total hours</th>
+                                    <th class="cell">lecture hours</th>
+                                    <th class="cell">practice hours</th>
+                                    <th class="cell">laboratory hours</th>
+                                    <th class="cell">SIS</th>
+                                    <th class="cell">credits</th>
+                                    <th class="cell">group</th>
+                                    <th class="cell">number of students</th>
+                                    <th class="cell">speciality</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="load : ${loadContainer}">
+                                    <td class="cell" th:text="${load.discipline.discipline}"></td>
+                                    <td class="cell" th:text="${load.discipline.totalhours()}"></td>
+                                    <td class="cell" th:text="${load.discipline.lecture_hours}"></td>
+                                    <td class="cell" th:text="${load.discipline.practice_hours}"></td>
+                                    <td class="cell" th:text="${load.discipline.laboratory_hours}"></td>
+                                    <td class="cell" th:text="${load.discipline.sis}"></td>
+                                    <td class="cell" th:text="${load.discipline.credits}"></td>
+                                    <td class="cell" th:text="${load.group.group_name}"></td>
+                                    <td class="cell" th:text="${load.group.number_of_students}"></td>
+                                    <td class="cell" th:text="${load.group.speciality}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <div>
+                        Management of diploma projects of bachelors (how many diploma students by load, in total, how
+                        many were completed or not completed): <input type="checkbox" id="trigger1" name="question1"
+                                                                      onkeyup='saveValue(this);'>
+                    </div>
+                    <div id="hidden_fields1">
+                        Input <input type="hidden" id="hidden_field1" name="diploma_management"
+                                     onkeyup='saveValue(this);'>
+                    </div>
+
+                </div>
+
+                <div class="table-responsive">
+                    <div>
+                        Supervision of master's theses for undergraduates of the first year of study: <input
+                            type="checkbox" id="trigger2" name="question2">
+                    </div>
+                    <div id="hidden_fields2">
+                        Input <input type="hidden" id="hidden_field2" name="master_theses" onkeyup='saveValue(this);'>
+                    </div>
+
+                </div>
+
+                <div class="table-responsive">
+                    <div>
+                        Supervision of master's theses for undergraduates of the second year of study: <input
+                            type="checkbox" id="trigger3" name="question3">
+                    </div>
+                    <div id="hidden_fields3">
+                        Input <input type="hidden" id="hidden_field3" name="master_theses_second"
+                                     onkeyup='saveValue(this);'>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <div>
+                        Elective and author's courses: <input type="checkbox" id="trigger4" name="question4">
+                    </div>
+                    <div id="hidden_fields4">
+                        Input <input type="hidden" id="hidden_field4" name="electives" onkeyup='saveValue(this);'>
+                    </div>
+                </div>
+
+                <div class="app-card app-card-orders-table shadow-sm mb-5">
+                    <div class="table-responsive">
+                        <div class="table-wrapper">
+                            <div class="table-title">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <h6 class="table-head">Educational work to check the progress of students</h6>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <a href="#addModal" class="btn btn-outline-success" data-toggle="modal"><i
+                                                class="material-icons">&#xE146;</i> <span>ADD</span></a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <table class="table app-table-hover mb-0 text-left">
+                                <thead>
+                                <tr>
+                                    <th class="cell first-col-act">Teaching workload</th>
+                                    <th class="cell">SIS</th>
+                                    <th class="cell">Midterm, Endterm, Exams</th>
+                                    <th class="cell">Total hours</th>
+                                    <th rowspan="2" class="cell">Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="workload : ${workloads}">
+                                    <td th:text="${workload.getWorkload_name()}"></td>
+                                    <td th:text="${workload.getSIS()}"></td>
+                                    <td th:text="${workload.getExams()}"></td>
+                                    <td th:text="${workload.getTotalhours()}"></td>
+                                    <td>
+                                        <button id="deleteBtn" class="delete" type="button" data-toggle="modal"
+                                                data-target="#deleteModal"
+                                                th:attr="data-whatever=${workload.workload_name}"><i
+                                                class="material-icons"
+                                                data-toggle="tooltip"
+                                                title="Delete">&#xE872;</i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="app-card app-card-orders-table shadow-sm mb-5">
+                    <div class="table-responsive">
+                        <div class="table-wrapper">
+                            <div class="table-title">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <h6 class="table-head">Educational and methodical work</h6>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <a href="#addEduModal" class="btn btn-outline-success" data-toggle="modal"><i
+                                                class="material-icons">&#xE146;</i> <span>ADD</span></a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <table class="table app-table-hover mb-0 text-left">
+                                <thead>
+                                <tr>
+                                    <th rowspan="2" class="cell first-col-act">Activities</th>
+                                    <th colspan="2" style="text-align: center;" class="cell">Workload</th>
+                                </tr>
+                                <tr>
+                                    <th class="cell">Time frame</th>
+                                    <th class="cell">Implementation</th>
+                                    <th rowspan="2" class="cell">Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="eduActivity : ${eduActivities}">
+                                    <td class="cell" th:text="${eduActivity.getActivity_name()}"></td>
+                                    <td class="cell" th:text="${eduActivity.getTime_frame()}"></td>
+                                    <td class="cell" th:text="${eduActivity.getImplementation()}"></td>
+                                    <td class="cell">
+                                        <button id="deleteEduBtn" class="delete" type="button" data-toggle="modal"
+                                                data-target="#deleteEduModal"
+                                                th:attr="data-whatever=${eduActivity.activity_name}"><i
+                                                class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="cell" style="font-weight:bold; text-align: right;">TOTAL</td>
+                                    <td class="cell" th:text="${sumofEduActivtyframe}"></td>
+                                    <td class="cell" th:text="${sumofEduActivtyimp}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div>
+                            <div>
+                                Seminars: <input type="checkbox" id="trigger6" name="question4">
+                            </div>
+                            <div id="hidden_fields6">
+                                Input <input type="text" id="hidden_field6" name="seminars" onkeyup='saveValue(this);'>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="app-card app-card-orders-table shadow-sm mb-5">
+                    <div class="table-responsive">
+                        <div class="table-wrapper">
+                            <div class="table-title">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <h6 class="table-head">Research activities</h6>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <table class="table app-table-hover mb-0 text-left">
+                                <thead>
+                                <tr>
+                                    <th class="cell first-col-act">Authors</th>
+                                    <th class="cell">Publication name</th>
+                                    <th rowspan="2" class="cell">Output</th>
+                                    <th rowspan="2" class="cell">Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="researchActivity : ${researchActivities}">
+                                    <td class="cell" th:text="${researchActivity.getAuthors()}"></td>
+                                    <td class="cell" th:text="${researchActivity.getActivityName()}"></td>
+                                    <td class="cell" th:text="${researchActivity.getDescription()}"></td>
+                                    <td class="cell">
+                                        <button id="deleteResBtn" class="delete" type="button" data-toggle="modal"
+                                                data-target="#deleteResBtn" th:attr="data-whatever=${ResActivity.activity_name}"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div>
+                            <div>
+                                Participation in the implementation of scientific projects and contractual work <input
+                                    type="checkbox" id="trigger7" name="question4">
+                            </div>
+                            <div id="hidden_fields7">
+                                Input <input type="text" id="hidden_field7" name="scientific_project"
+                                             onkeyup='saveValue(this);'>
+                            </div>
+
+                        </div>
+
+                        <div>
+                            <div>
+                                Certificates, awards <input type="checkbox" id="trigger8" name="question4">
+                            </div>
+                            <div id="hidden_fields8">
+                                Input <input type="text" id="hidden_field8" name="sertificates_awards"
+                                             onkeyup='saveValue(this);'>
+                            </div>
+
+                        </div>
+
+                        <div>
+                            <div>
+                                Budgetary research works and management of student's research work <input
+                                    type="checkbox"
+                                    id="trigger9"
+                                    name="question4">
+                            </div>
+                            <div id="hidden_fields9">
+                                Input <input type="text" id="hidden_field9" name="budgetary_research"
+                                             onkeyup='saveValue(this);'>
+                            </div>
+
+                        </div>
+
+                        <div>
+                            <div>
+                                Grants, scientific scholarships <input type="checkbox" id="trigger10" name="question4">
+                            </div>
+                            <div id="hidden_fields10">
+                                Input <input type="text" id="hidden_field10" name="grants" onkeyup='saveValue(this);'>
+                            </div>
+
+                        </div>
+
+                        <div International cooperation>
+                            <div>
+                                Joint projects with foreign universities <input type="checkbox" id="trigger11"
+                                                                                name="question4">
+                            </div>
+                            <div id="hidden_fields11">
+                                Input <input type="text" id="hidden_field11" name="joint" onkeyup='saveValue(this);'>
+                            </div>
+
+                            <div>
+                                Internship <input type="checkbox" id="trigger12" name="question4">
+                            </div>
+                            <div id="hidden_fields12">
+                                Input <input type="text" id="hidden_field12" name="internship"
+                                             onkeyup='saveValue(this);'>
+                            </div>
+
+                            <div>
+                                Partners <input type="checkbox" id="trigger13" name="question4">
+                            </div>
+                            <div id="hidden_fields13">
+                                Input <input type="text" id="hidden_field13" name="partners" onkeyup='saveValue(this);'>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="app-card app-card-orders-table shadow-sm mb-5">
+                    <div class="table-responsive">
+                        <div class="table-wrapper">
+                            <div class="table-title">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <h6 class="table-head">Organizational and methodological work</h6>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <a href="#addMethModal" class="btn btn-outline-success" data-toggle="modal"><i
+                                                class="material-icons">&#xE146;</i> <span>ADD</span></a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <table class="table app-table-hover mb-0 text-left">
+                                <thead>
+                                <tr>
+                                    <th rowspan="2" class="cell first-col-act">Activities</th>
+                                    <th colspan="2" style="text-align: center;" class="cell">Workload</th>
+                                </tr>
+                                <tr>
+                                    <th class="cell">Time frame</th>
+                                    <th class="cell">Implementation</th>
+                                    <th rowspan="2" class="cell">Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="methactivity : ${methActivities}">
+                                    <td class="cell" th:text="${methactivity.getActivity_name()}"></td>
+                                    <td class="cell" th:text="${methactivity.getTime_frame()}"></td>
+                                    <td class="cell" th:text="${methactivity.getImplementation()}"></td>
+                                    <td class="cell">
+                                        <button id="deleteMethBtn" class="delete" type="button" data-toggle="modal"
+                                                data-target="#deleteMethModal"
+                                                th:attr="data-whatever=${methactivity.activity_name}"><i
+                                                class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="cell" style="font-weight:bold; text-align: right;">TOTAL</td>
+                                    <td class="cell" th:text="${sumofMethActivtyframe}"></td>
+                                    <td class="cell" th:text="${sumofMethActivtyimp}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <label for="start">Start date:</label>
+                <input class="datePicker" type="date" id="start" name="doc_date" value="2022-06-01">
+                <button class="btn btn-outline-secondary" type="submit" style="margin-left: 25px">Save</button>
+            </form>
+
+
+        </div>
+
+        <div id="addModal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form class="needs-validation" novalidate="" action="/plan/addAcadem" method="post">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Add </h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="form-label">Activity name</label>
+                                <input type="text" class="form-control" name="activity_name" placeholder="" value=""
+                                       required="">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Time frame(hours)</label>
+                                <input type="text" class="form-control" name="time_frame" placeholder="" value=""
+                                       required="">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Implementation(hours)</label>
+                                <input type="text" class="form-control" name="implementation" placeholder="" value=""
+                                       required="">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                            <input type="submit" class="btn btn-outline-secondary" value="Add">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div id="addResModal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form class="needs-validation" novalidate="" action="/plan/addRes" method="post">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Add </h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="form-label">Activity name</label>
+                                <input type="text" class="form-control" name="activity_name" placeholder="" value=""
+                                       required="">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Output(thousand tenge)</label>
+                                <input type="text" class="form-control" name="output" placeholder="" value=""
+                                       required="">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Participation(%)</label>
+                                <input type="text" class="form-control" name="participation" placeholder="" value=""
+                                       required="">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Time frame(hours)</label>
+                                <input type="text" class="form-control" name="time_frame" placeholder="" value=""
+                                       required="">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Implementation(hours)</label>
+                                <input type="text" class="form-control" name="implementation" placeholder="" value=""
+                                       required="">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                            <input type="submit" class="btn btn-outline-secondary" value="Add">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div id="addMethModal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form class="needs-validation" novalidate="" action="/plan/addMeth" method="post">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Add </h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="form-label">Activity name</label>
+                                <input type="text" class="form-control" name="activity_name" placeholder="" value=""
+                                       required="">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Time frame(hours)</label>
+                                <input type="text" class="form-control" name="time_frame" placeholder="" value=""
+                                       required="">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Implementation(hours)</label>
+                                <input type="text" class="form-control" name="implementation" placeholder="" value=""
+                                       required="">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                            <input type="submit" class="btn btn-outline-secondary" value="Add">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div id="addEduModal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form class="needs-validation" novalidate="" action="/plan/addEdu" method="post">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Add </h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="form-label">Activity name</label>
+                                <input type="text" class="form-control" name="activity_name" placeholder="" value=""
+                                       required="">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Time frame(hours)</label>
+                                <input type="text" class="form-control" name="time_frame" placeholder="" value=""
+                                       required="">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Implementation(hours)</label>
+                                <input type="text" class="form-control" name="implementation" placeholder="" value=""
+                                       required="">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                            <input type="submit" class="btn btn-outline-secondary" value="Add">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Delete</h5>
+                        <button type="button" class="close" data-dismiss="modal"></button>
+                    </div>
+                    <div id="deleteModalBody" class="modal-body">
+                        <p>Are you sure you want to delete this record?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <form id="deleteForm" action="/plan/deleteAcadem" method="get"></form>
+                        <input type="hidden" name="activity_name" form="deleteForm"/>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-danger" form="deleteForm">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="deleteResModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Delete</h5>
+                        <button type="button" class="close" data-dismiss="modal"></button>
+                    </div>
+                    <div id="deleteResModalBody" class="modal-body">
+                        <p>Are you sure you want to delete this record?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <form id="deleteResForm" action="/plan/deleteRes" method="get"></form>
+                        <input type="hidden" name="activity_name" form="deleteResForm"/>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-danger" form="deleteResForm">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="deleteMethModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Delete</h5>
+                        <button type="button" class="close" data-dismiss="modal"></button>
+                    </div>
+                    <div id="deleteMethModalBody" class="modal-body">
+                        <p>Are you sure you want to delete this record?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <form id="deleteMethForm" action="/plan/deleteMeth" method="get"></form>
+                        <input type="hidden" name="activity_name" form="deleteMethForm"/>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-danger" form="deleteMethForm">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="deleteEduModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Delete</h5>
+                        <button type="button" class="close" data-dismiss="modal"></button>
+                    </div>
+                    <div id="deleteEduModalBody" class="modal-body">
+                        <p>Are you sure you want to delete this record?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <form id="deleteEduForm" action="/plan/deleteEdu" method="get"></form>
+                        <input type="hidden" name="activity_name" form="deleteEduForm"/>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-danger" form="deleteEduForm">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <footer class="app-footer">
+        <div class="container text-center py-3">
+            <small class="copyright">International IT University</small>
+        </div>
+    </footer>
+</div>
+
+<!-- Javascript -->
+<script th:src="@{/plugins/popper.min.js}"></script>
+<script th:src="@{/plugins/bootstrap/js/bootstrap.min.js}"></script>
+<!-- Page Specific JS -->
+<script th:src="@{/js/app.js}"></script>
+<!--    <script th:src="@{/js/script.js}"></script>-->
+
+</body>
+
+</html>
