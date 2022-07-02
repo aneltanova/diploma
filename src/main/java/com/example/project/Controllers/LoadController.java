@@ -1,6 +1,7 @@
 package com.example.project.Controllers;
 
 import com.example.project.Modules.*;
+import com.example.project.Modules.Containers.LoadContainer;
 import com.example.project.Repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -18,14 +19,35 @@ public class LoadController {
 
     @Autowired
     private LoadRepo loadRepo;
+
     @Autowired
     private GroupsRepo groupRepo;
+
     @Autowired
     private TeacherRepository teacherRepository;
+
     @Autowired
     private DisciplinesRepo disciplinesRepo;
 
+
     private List<LoadContainer> loadContainer = new ArrayList<LoadContainer>();
+
+    @GetMapping("/load/view")
+    public String getReportPage(Authentication authentication, Model model){
+        List<Load> load = loadRepo.findAll();
+        Load userload = new Load();
+        for(Load temp : load){
+            if (teacherRepository.findTeacherById(temp.getHeadid()).getDepartment_id().equals( teacherRepository.findTeacherByEmail(authentication.getName()).getDepartment_id())){
+                userload.setAcademic_load(temp.getAcademic_load());
+            }
+        }
+        List<LoadContainer> loadContainer = userload.getAcademic_load();
+
+        loadContainer.removeIf(loadContainer1 -> (!loadContainer1.getTeacher().getEmail().equals(authentication.getName())));
+
+        model.addAttribute("loadContainer", loadContainer);
+        return "load_byteacher";
+    }
 
     @GetMapping("/load_create")
     public String addLoadPage(Model model){
@@ -42,18 +64,23 @@ public class LoadController {
 
     @PostMapping("/load")
     public String addLoadContent(Model model, LoadContainer load){
+
         if(loadContainer.contains(load)){
+
         }
         else {
             loadContainer.add(load);
         }
         model.addAttribute("loadContainer", loadContainer);
+
         return "load";
     }
 
     @GetMapping("/load")
     public String getLoadPage(Model model){
+
         model.addAttribute("loadContainer", loadContainer);
+
         return "load";
     }
 
@@ -67,7 +94,7 @@ public class LoadController {
         return "load";
     }
 
-    @GetMapping("/load_disp")
+    @GetMapping("/load_list")
     public String displayLoad(Model model, Authentication authentication){
         List<Load> load = loadRepo.findAll();
         Load userload = new Load();
@@ -77,10 +104,8 @@ public class LoadController {
             }
         }
         List<LoadContainer> loadContainer = userload.getAcademic_load();
-        System.out.println(loadContainer);
         model.addAttribute("loadlist", loadContainer);
         return "load_list";
     }
 
 }
-

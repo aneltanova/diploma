@@ -19,15 +19,22 @@ public class DisciplinesController {
         this.disciplinesRepo = disciplinesRepo;
     }
 
-    @GetMapping("/disciplines/add")
-    public String getDisciplinesPage(){
+    @GetMapping("/disciplines/edit")
+    public String getDisciplinesPage(Model model){
+        List<Disciplines> disciplines = disciplinesRepo.findAll();
+        model.addAttribute("disciplines", disciplines);
         return "disciplines_edit";
     }
 
     @GetMapping("/disciplines")
-    public String getGroupsPage(Model model){
+    public String getDisciplinesList(Model model){
         List<Disciplines> disciplines = disciplinesRepo.findAll();
         model.addAttribute("disciplines", disciplines);
+        return "disciplines_list";
+    }
+
+    @GetMapping("/disciplines/add")
+    public String addDiscipline(){
         return "disciplines_edit";
     }
 
@@ -40,12 +47,12 @@ public class DisciplinesController {
     @GetMapping("/disciplines/delete")
     public String delete(@RequestParam long id) {
         disciplinesRepo.deleteById(id);
-        return "redirect:/disciplines";
+        return "redirect:/disciplines/edit";
     }
 
     @PostMapping("/disciplines/edit")
     public String update(@ModelAttribute Disciplines discipline) {
         disciplinesRepo.save(discipline);
-        return "redirect:/disciplines";
+        return "redirect:/disciplines/edit";
     }
 }

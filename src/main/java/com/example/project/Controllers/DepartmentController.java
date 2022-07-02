@@ -1,47 +1,47 @@
 package com.example.project.Controllers;
 
 import com.example.project.Modules.Departments;
+import com.example.project.Modules.Faculties;
 import com.example.project.Repositories.DepartmentsRepo;
+import com.example.project.Repositories.FacultiesRepo;
+import com.example.project.Repositories.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
-@RestController
-@RequestMapping("/departments")
+@Controller
 public class DepartmentController {
 
-
-    private final DepartmentsRepo departmentsRepo;
-
     @Autowired
-    DepartmentController(DepartmentsRepo departmentsRepo){
-        this.departmentsRepo = departmentsRepo;
-    }
+    private DepartmentsRepo departmentsRepo;
+    @Autowired
+    private FacultiesRepo facultiesRepo;
 
-    @GetMapping("/findall")
-    public List<Departments> findAll() {
-        return (List<Departments>) departmentsRepo.findAll();
-    }
-
-    @PostMapping("/create")
-    public Departments add(@RequestBody Departments department) {
+    @PostMapping("/departments/add")
+    public Departments add(Departments department) {
         departmentsRepo.save(department);
         return department;
     }
 
-    @GetMapping("/find/{id}")
-    public Optional<Departments> find(@PathVariable("id") long id) {
-        return departmentsRepo.findById(id);
+    @GetMapping("/departments")
+    public String getDepartmentsPage(Model model){
+        List<Faculties> faculty = facultiesRepo.findAll();
+        List<Departments> department = departmentsRepo.findAll();
+        model.addAttribute("departments", department);
+        model.addAttribute("faculties", faculty);
+        return "departments_list";
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/departments/delete/{id}")
     public void delete(@PathVariable("id") long id) {
         departmentsRepo.deleteById(id);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/departments/update/{id}")
     public Departments update(@PathVariable("id") long id, @RequestBody Departments department) {
         department.setId(id);
         departmentsRepo.save(department);

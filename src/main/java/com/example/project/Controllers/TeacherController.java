@@ -1,5 +1,6 @@
 package com.example.project.Controllers;
 
+import com.example.project.Modules.Groups;
 import com.example.project.Modules.Role;
 import com.example.project.Modules.Teacher;
 import com.example.project.Repositories.TeacherRepository;
@@ -16,8 +17,14 @@ public class TeacherController {
     @Autowired
     private TeacherRepository teacherRepository;
 
+    @GetMapping("/users/list")
+    public String getUsersList(Model model){
+        List<Teacher> teachers = teacherRepository.findAll();
+        model.addAttribute("teachers", teachers);
+        return "users_list";
+    }
 
-    @GetMapping("/users")
+    @GetMapping("/users/edit")
     public String getUsersPage(Model model){
         List<Teacher> teachers = teacherRepository.findAll();
         model.addAttribute("teachers", teachers);
@@ -27,13 +34,22 @@ public class TeacherController {
     @GetMapping("/users/delete")
     public String delete(@RequestParam long id) {
         teacherRepository.deleteById(id);
-        return "redirect:/users";
+        return "redirect:/users/edit";
     }
-    @PutMapping("/users/update/{id}")
-    public Teacher update(@PathVariable("id") long id, @RequestBody Teacher teacher, @RequestBody Role role){
-        teacher.setRole(role);
-        teacherRepository.save(teacher);
-        return teacher;
-    }
+
+//    @PostMapping("/users/edit")
+//    public String update(@ModelAttribute Teacher teacher) {
+//         if (role.getRolename().equals("ADMIN")){
+//                role.setRole_id(1L);
+//            }
+//                else if (role.getRolename().equals("HEAD_OF_DEP")){
+//                role.setRole_id(2L);
+//            }
+//                else
+//                        role.setRole_id(3L);
+//        teacher.setPassword(passwordEncoder.encode(teacher.getPassword()));
+//        teacherRepository.save(teacher);
+//        return "redirect:/users/edit";
+//    }
 
 }

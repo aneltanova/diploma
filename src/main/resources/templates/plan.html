@@ -1,387 +1,635 @@
 <!DOCTYPE html>
 <html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <html xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<html xmlns:th = "http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-    <link href="/docs/5.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <title></title>
 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+    <meta charset="utf-8">
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-    <link th:href="@{/css/individual.css}" rel="stylesheet" />
+
+    <link rel="shortcut icon" th:href="@{favicon.ico}">
+    <script defer th:src="@{/plugins/fontawesome/js/all.min.js}"></script>
+    <link id="theme-style" rel="stylesheet" th:href="@{/css/portal.css}">
+    <script>
+        Date.prototype.toDateInputValue = (function () {
+            var local = new Date(this);
+            local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+            return local.toJSON().slice(0, 10);
+        });
+
+        $(document).ready(function () {
+            $('#start').val(new Date().toDateInputValue());
+        });
+    </script>
 
 </head>
-<body>
 
-<div class="container-xl">
+<body class="app">
 
-    <h2> INDIVIDUAL PLAN OF WORK OF THE TEACHER</h2>
-    <div class="usser_info">
-        <h6>Full Name: <span class="user_detail">'Ydyrys Aizhan'</span></h6>
-        <h6>Position: <span class="user_detail">'example'</span></h6>
-        <h6>Academic degree: <span class="user_detail">'example'</span></h6>
-        <h6>Faculty: <span class="user_detail">'FCTC'</span></h6>
-        <h6>Department: <span class="user_detail">'MCM'</span></h6>
-        <h6>Staff type: <span class="user_detail">'staff, part-time, hourly'</span></h6>
-    </div>
-
-    <div class="table-responsive">
-        <div class="table-wrapper">
-            <div class="table-title">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <h5>Teaching workload </h5>
+<!-- NAVBAR -->
+<header class="app-header fixed-top">
+    <div class="app-header-inner">
+        <div class="container-fluid py-2">
+            <div class="app-header-content">
+                <div class="row justify-content-between align-items-center">
+                    <div class="col-auto">
+                        <a id="sidepanel-toggler" class="sidepanel-toggler d-inline-block d-xl-none" href="#">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30"
+                                 role="img">
+                                <title>Menu</title>
+                                <path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10"
+                                      stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path>
+                            </svg>
+                        </a>
                     </div>
+                    <div class="app-utilities col-auto">
+                        <div class="app-utility-item app-user-dropdown dropdown">
+                            <a class="dropdown-toggle" id="user-dropdown-toggle" data-bs-toggle="dropdown" href="#"
+                               role="button" aria-expanded="false" th:href="@{/#}"
+                               th:text="${#authentication.getName()} ">user</a>
+                            <ul class="dropdown-menu" aria-labelledby="user-dropdown-toggle">
+                                <li><a class="dropdown-item" th:href="@{/logout}">Log Out</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
                 </div>
             </div>
-
-            <table class="table table-striped table-hover table-bordered">
-                <thead>
-                <tr>
-                    <!--                    <th scope="col">ID</th>-->
-                    <th scope="col">discipline</th>
-                    <th scope="col">total hours</th>
-                    <th scope="col">lecture hours</th>
-                    <th scope="col">practice hours</th>
-                    <th scope="col">laboratory hours</th>
-                    <th scope="col">SIS</th>
-                    <th scope="col">credits</th>
-                    <th scope="col">group</th>
-                    <th scope="col">number of students</th>
-                    <th scope="col">speciality</th>
-                </tr>
-                </thead>
-                <tbody>
-<!--                <tr th:each = "load : ${loadContainer}">-->
-<!--                    <td th:text="${load.discipline.discipline}">1</td>-->
-<!--                    <td th:text="${load.discipline.totalhours()}">2</td>-->
-<!--                    <td th:text="${load.discipline.lecture_hours}">3</td>-->
-<!--                    <td th:text="${load.discipline.practice_hours}">4</td>-->
-<!--                    <td th:text="${load.discipline.laboratory_hours}">5</td>-->
-<!--                    <td th:text="${load.discipline.sis}">6</td>-->
-<!--                    <td th:text="${load.discipline.credits}">7</td>-->
-<!--                    <td th:text="${load.group.group_name}">8</td>-->
-<!--                    <td th:text="${load.group.number_of_students}">9</td>-->
-<!--                    <td th:text="${load.group.speciality}">10</td>-->
-<!--                </tr>-->
-                </tbody>
-            </table>
         </div>
     </div>
 
+    <div id="app-sidepanel" class="app-sidepanel">
+        <div id="sidepanel-drop" class="sidepanel-drop"></div>
+        <div class="sidepanel-inner d-flex flex-column">
+            <a href="#" id="sidepanel-close" class="sidepanel-close d-xl-none">&times;</a>
+            <div class="app-branding">
+                <span class="logo-text">Department.IITU</span>
 
-    <div class="table-responsive">
-        <div class="table-wrapper">
-            <div class="table-title">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <h5>Academic and methodological activities </h5>
-                    </div>
-                    <div class="col-sm-6">
-                        <a href="#addModal" class="btn btn-outline-success" data-toggle="modal"><i class="material-icons">&#xE146;</i> <span>ADD</span></a>
-                    </div>
-                </div>
             </div>
 
-            <table class="table table-striped table-hover">
-                <thead>
-                <tr>
-                    <th rowspan="2" scope="col">Activities</th>
-                    <th rowspan="2" scope="col">Output (thousand tenge)</th>
-                    <th rowspan="2" scope="col">Participation share, %</th>
-                    <th colspan="2" style = "text-align: center;" scope="col">Workload</th>
-                </tr>
-                <tr>
-                    <th scope="col">Time frame</th>
-                    <th scope="col">Implementation</th>
-                    <th rowspan="2" scope="col">Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>2</td>
-                    <td>3</td>
-                    <td>4</td>
-                    <td>5</td>
-<!--                    <td>-->
-<!--                        <button id="editBtn" class="edit" type="button" onclick="editRow(this)"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></button>-->
-<!--                        <button id="deleteBtn" class="delete" type="button" data-toggle="modal"-->
-<!--                                data-target="#deleteModal" th:attr="data-whatever=${group.id}"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>-->
-<!--                        </button>-->
+            <nav id="app-nav-main" class="app-nav app-nav-main flex-grow-1">
+                <div th:insert="~{fragments :: teacher_navbar}" sec:authorize="hasRole('ROLE_TEACHER')"></div>
+                <div th:insert="~{fragments :: head_navbar}" sec:authorize="hasRole('ROLE_HEAD_OF_DEP')"></div>
+                <div th:insert="~{fragments :: admin_navbar}" sec:authorize="hasRole('ROLE_ADMIN')"></div>
 
-<!--                        <button id="saveBtn" class="edit" type="submit"  th:form="${'updateForm' + group.id}">-->
-<!--                            <i class="fa fa-check fa-2x"></i>-->
-<!--                        </button>-->
-<!--                        <button id="cancelBtn" class="delete" type="button"  onclick="cancelRow(this)">-->
-<!--                            <i class="fa fa-times fa-2x"></i>-->
-<!--                        </button>-->
-<!--                    </td>-->
-                </tr>
-                <tr>
-                    <td style = "font-weight:bold; text-align: right;">TOTAL</td>
-                    <td>2</td>
-                    <td>3</td>
-                    <td>4</td>
-                    <td>5</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+            </nav>
 
-    <div class="table-responsive">
-        <div class="table-wrapper">
-            <div class="table-title">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <h5>Research activities  </h5>
-                    </div>
-                    <div class="col-sm-6">
-                        <a href="#addModal" class="btn btn-outline-success" data-toggle="modal"><i class="material-icons">&#xE146;</i> <span>ADD</span></a>
-                    </div>
-                </div>
+            <div class="app-sidepanel-footer">
+                <nav class="app-nav app-nav-footer">
+                    <ul class="app-menu footer-menu list-unstyled">
+                        <li class="nav-item">
+                            <span class="nav-link-text" style="margin-left: 50px;">role:<span
+                                    sec:authentication="principal.authorities"></span></span>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/logout}">
+									<span class="nav-icon">
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                             fill="currentColor" class="bi bi-door-closed" viewBox="0 0 16 16">
+											<path
+                                                    d="M3 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v13h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V2zm1 13h8V2H4v13z"/>
+											<path d="M9 9a1 1 0 1 0 2 0 1 1 0 0 0-2 0z"/>
+										</svg>
+									</span>
+                                <span class="nav-link-text">Log Out</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
 
-            <table class="table table-striped table-hover">
-                <thead>
-                <tr>
-                    <th rowspan="2" scope="col">Activities</th>
-                    <th colspan="2" style = "text-align: center;" scope="col">Workload</th>
-                </tr>
-                <tr>
-                    <th scope="col">Time frame</th>
-                    <th scope="col">Implementation</th>
-                    <th rowspan="2" scope="col">Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>2</td>
-                    <td>3</td>
-                    <td>
-<!--                        <button id="editBtn" class="edit" type="button" onclick="editRow(this)"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></button>-->
-<!--                        <button id="deleteBtn" class="delete" type="button" data-toggle="modal"-->
-<!--                                data-target="#deleteModal" th:attr="data-whatever=${group.id}"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>-->
-<!--                        </button>-->
-
-<!--                        <button id="saveBtn" class="edit" type="submit"  th:form="${'updateForm' + group.id}">-->
-<!--                            <i class="fa fa-check fa-2x"></i>-->
-<!--                        </button>-->
-<!--                        <button id="cancelBtn" class="delete" type="button"  onclick="cancelRow(this)">-->
-<!--                            <i class="fa fa-times fa-2x"></i>-->
-<!--                        </button>-->
-                    </td>
-                </tr>
-                <tr>
-                    <td style = "font-weight:bold; text-align: right;">TOTAL</td>
-                    <td>2</td>
-                    <td>3</td>
-                </tr>
-                </tbody>
-            </table>
         </div>
     </div>
+</header>
 
+<div class="app-wrapper">
 
-    <div class="table-responsive">
-        <div class="table-wrapper">
-            <div class="table-title">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <h5>Organizational and methodological activities</h5>
-                    </div>
-                    <div class="col-sm-6">
-                        <a href="#addModal" class="btn btn-outline-success" data-toggle="modal"><i class="material-icons">&#xE146;</i> <span>ADD</span></a>
+    <div class="app-content pt-3 p-md-3 p-lg-4">
+        <h1 class="app-page-title">CREATE INDIVIDUAL PLAN</h1>
+        <div class="app-card app-card-accordion shadow-sm mb-4" style="padding: 50px;">
+
+            <form class="needs-validation" novalidate="" action="/savePlan" method="post">
+                <div class="user_info">
+                    <h6>Full Name: <b><span class="user_detail" th:text="${teacher.fullName()}"></span></b></h6>
+                    <h6>Position: <span class="user_detail" th:text="${teacher.position}"></span></h6>
+                    <h6>Academic degree: <span class="user_detail" th:text="${teacher.degree}"></span></h6>
+                    <h6>Department: <span class="user_detail" th:text="${teacher.department_id}"></span></h6>
+                    <!--                <h6>Staff type: <span class="user_detail" th:text="${teacher.position}" ></span></h6>-->
+                </div>
+
+                <div class="app-card app-card-orders-table shadow-sm mb-5">
+                    <div class="table-responsive">
+                        <div class="table-wrapper">
+                            <div class="table-title">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <h6 class="table-head">Teaching workload </h6>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <table class="table app-table-hover mb-0 text-left">
+                                <thead>
+                                <tr>
+                                    <th class="cell">discipline</th>
+                                    <th class="cell">total hours</th>
+                                    <th class="cell">lecture hours</th>
+                                    <th class="cell">practice hours</th>
+                                    <th class="cell">laboratory hours</th>
+                                    <th class="cell">SIS</th>
+                                    <th class="cell">credits</th>
+                                    <th class="cell">group</th>
+                                    <th class="cell">number of students</th>
+                                    <th class="cell">speciality</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="load : ${loadContainer}">
+                                    <td class="cell" th:text="${load.discipline.discipline}"></td>
+                                    <td class="cell" th:text="${load.discipline.totalhours()}"></td>
+                                    <td class="cell" th:text="${load.discipline.lecture_hours}"></td>
+                                    <td class="cell" th:text="${load.discipline.practice_hours}"></td>
+                                    <td class="cell" th:text="${load.discipline.laboratory_hours}"></td>
+                                    <td class="cell" th:text="${load.discipline.sis}"></td>
+                                    <td class="cell" th:text="${load.discipline.credits}"></td>
+                                    <td class="cell" th:text="${load.group.group_name}"></td>
+                                    <td class="cell" th:text="${load.group.number_of_students}"></td>
+                                    <td class="cell" th:text="${load.group.speciality}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <table class="table table-striped table-hover">
-                <thead>
-                <tr>
-                    <th rowspan="2" scope="col">Activities</th>
-                    <th colspan="2" style = "text-align: center;" scope="col">Workload</th>
-                </tr>
-                <tr>
-                    <th scope="col">Time frame</th>
-                    <th scope="col">Implementation</th>
-                    <th rowspan="2" scope="col">Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>2</td>
-                    <td>3</td>
-                    <td>
-<!--                        <button id="editBtn" class="edit" type="button" onclick="editRow(this)"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></button>-->
-<!--                        <button id="deleteBtn" class="delete" type="button" data-toggle="modal"-->
-<!--                                data-target="#deleteModal" th:attr="data-whatever=${group.id}"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>-->
-<!--                        </button>-->
+                <div class="app-card app-card-orders-table shadow-sm mb-5">
+                    <div class="table-responsive">
+                        <div class="table-wrapper">
+                            <div class="table-title">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <h6 class="table-head">Academic activities</h6>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <a href="#addModal" class="btn btn-outline-success" data-toggle="modal"><i
+                                                class="material-icons">&#xE146;</i> <span>ADD</span></a>
+                                    </div>
+                                </div>
+                            </div>
 
-<!--                        <button id="saveBtn" class="edit" type="submit"  th:form="${'updateForm' + group.id}">-->
-<!--                            <i class="fa fa-check fa-2x"></i>-->
-<!--                        </button>-->
-<!--                        <button id="cancelBtn" class="delete" type="button"  onclick="cancelRow(this)">-->
-<!--                            <i class="fa fa-times fa-2x"></i>-->
-<!--                        </button>-->
-                    </td>
-                </tr>
-                <tr>
-                    <td style = "font-weight:bold; text-align: right;">TOTAL</td>
-                    <td>2</td>
-                    <td>3</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <div class="table-responsive">
-        <div class="table-wrapper">
-            <div class="table-title">
-                <div class="row">
-                    <div class="col-sm-9">
-                        <h5>Educational and social work,vocational guidance, paid services, classroom maintenance, professional development</h5>
-                    </div>
-                    <div class="col-sm-6">
-                        <a href="#addModal" class="btn btn-outline-success" data-toggle="modal"><i class="material-icons">&#xE146;</i> <span>ADD</span></a>
+                            <table class="table app-table-hover mb-0 text-left">
+                                <thead>
+                                <tr>
+                                    <th class="cell first-col-act" rowspan="2" >Activities</th>
+                                    <th class="cell" colspan="2" style="text-align: center;">Workload</th>
+                                </tr>
+                                <tr>
+                                    <th class="cell">Time frame</th>
+                                    <th class="cell">Implementation</th>
+                                    <th class="cell" rowspan="2">Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="academicactivity : ${academicActivities}">
+                                    <td class="cell" th:text="${academicactivity.getActivity_name()}"></td>
+                                    <td class="cell" th:text="${academicactivity.getTime_frame()}"></td>
+                                    <td class="cell" th:text="${academicactivity.getImplementation()}"></td>
+                                    <td class="cell">
+                                        <button id="deleteBtn" class="delete" type="button" data-toggle="modal"
+                                                data-target="#deleteModal"
+                                                th:attr="data-whatever=${academicactivity.activity_name}"><i
+                                                class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="cell" style="font-weight:bold; text-align: right;">TOTAL</td>
+                                    <td class="cell" th:text="${sumofacademicActivtyframe}"></td>
+                                    <td class="cell" th:text="${sumofacademicActivtyimp}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <table class="table table-striped table-hover">
-                <thead>
-                <tr>
-                    <th rowspan="2" scope="col">Activities</th>
-                    <th colspan="2" style = "text-align: center;" scope="col">Workload</th>
-                </tr>
-                <tr>
-                    <th scope="col">Time frame</th>
-                    <th scope="col">Implementation</th>
-                    <th rowspan="2" scope="col">Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>1</td>
-                    <td >2</td>
-                    <td>3</td>
-                    <td>
-                        <button id="editBtn" class="edit" type="button" onclick="editRow(this)"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></button>
-                        <button id="deleteBtn" class="delete" type="button" data-toggle="modal"
-                                data-target="#deleteModal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
-                        </button>
+                <div class="app-card app-card-orders-table shadow-sm mb-5">
+                    <div class="table-responsive">
+                        <div class="table-wrapper">
+                            <div class="table-title">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <h6 class="table-head">Research activities</h6>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <a href="#addResModal" class="btn btn-outline-success" data-toggle="modal"><i
+                                                class="material-icons">&#xE146;</i> <span>ADD</span></a>
+                                    </div>
+                                </div>
+                            </div>
 
-                        <button id="saveBtn" class="edit" type="submit" >
-                            <i class="fa fa-check fa-2x"></i>
-                        </button>
-                        <button id="cancelBtn" class="delete" type="button"  onclick="cancelRow(this)">
-                            <i class="fa fa-times fa-2x"></i>
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td style = "font-weight:bold; text-align: right;">TOTAL</td>
-                    <td>2</td>
-                    <td>3</td>
-                </tr>
-                </tbody>
-            </table>
+                            <table class="table app-table-hover mb-0 text-left">
+                                <thead>
+                                <tr>
+                                    <th class="cell first-col-act" rowspan="2" >Activities</th>
+                                    <th class="cell" rowspan="2">Output (thousand tenge)</th>
+                                    <th class="cell" rowspan="2">Participation share, %</th>
+                                    <th class="cell" colspan="2" style="text-align: center;" scope="col">Workload</th>
+                                </tr>
+                                <tr>
+                                    <th class="cell">Time frame</th>
+                                    <th class="cell">Implementation</th>
+                                    <th class="cell" rowspan="2">Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="resactivity : ${researchActivities}">
+                                    <td class="cell" th:text="${resactivity.getActivity_name()}"></td>
+                                    <td class="cell" th:text="${resactivity.getOutput()}"></td>
+                                    <td class="cell" th:text="${resactivity.getParticipation()}"></td>
+                                    <td class="cell" th:text="${resactivity.getTime_frame()}"></td>
+                                    <td class="cell" th:text="${resactivity.getImplementation()}"></td>
+                                    <td class="cell">
+                                        <button id="deleteResBtn" class="delete" type="button" data-toggle="modal"
+                                                data-target="#deleteResModal"
+                                                th:attr="data-whatever=${resactivity.activity_name}"><i
+                                                class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="cell" style="font-weight:bold; text-align: right;">TOTAL</td>
+                                    <td class="cell" th:text="${sumofresActivityout}"></td>
+                                    <td class="cell"></td>
+                                    <td class="cell" th:text="${sumofresActivtyframe}"></td>
+                                    <td class="cell" th:text="${sumofresActivtyimp}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="app-card app-card-orders-table shadow-sm mb-5">
+                    <div class="table-responsive">
+                        <div class="table-wrapper">
+                            <div class="table-title">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <h6 class="table-head">Organizational and methodological activities</h6>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <a href="#addMethModal" class="btn btn-outline-success" data-toggle="modal"><i
+                                                class="material-icons">&#xE146;</i> <span>ADD</span></a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <table class="table app-table-hover mb-0 text-left">
+                                <thead>
+                                <tr>
+                                    <th class="cell first-col-act" rowspan="2" >Activities</th>
+                                    <th class="cell" colspan="2" style="text-align: center;">Workload</th>
+                                </tr>
+                                <tr>
+                                    <th class="cell">Time frame</th>
+                                    <th class="cell">Implementation</th>
+                                    <th class="cell" rowspan="2">Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="methactivity : ${methActivities}">
+                                    <td class="cell" th:text="${methactivity.getActivity_name()}"></td>
+                                    <td class="cell" th:text="${methactivity.getTime_frame()}">2</td>
+                                    <td class="cell" th:text="${methactivity.getImplementation()}">3</td>
+                                    <td class="cell">
+                                        <button id="deleteMethBtn" class="delete" type="button" data-toggle="modal"
+                                                data-target="#deleteMethModal"
+                                                th:attr="data-whatever=${methactivity.activity_name}"><i
+                                                class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="cell" style="font-weight:bold; text-align: right;">TOTAL</td>
+                                    <td class="cell" th:text="${sumofMethActivtyframe}"></td>
+                                    <td class="cell" th:text="${sumofMethActivtyimp}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="app-card app-card-orders-table shadow-sm mb-5">
+                    <div class="table-responsive">
+                        <div class="table-wrapper">
+                            <div class="table-title">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <h6 class="table-head">Educational and social work,vocational guidance, paid
+                                            services, classroom maintenance, professional development</h6>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <a href="#addEduModal" class="btn btn-outline-success" data-toggle="modal"><i
+                                                class="material-icons">&#xE146;</i> <span>ADD</span></a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <table class="table app-table-hover mb-0 text-left">
+                                <thead>
+                                <tr>
+                                    <th class="cell first-col-act" rowspan="2" >Activities</th>
+                                    <th class="cell" colspan="2" style="text-align: center;">Workload</th>
+                                </tr>
+                                <tr>
+                                    <th class="cell">Time frame</th>
+                                    <th class="cell">Implementation</th>
+                                    <th class="cell" rowspan="2">Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="eduactivity : ${eduActivities}">
+                                    <td class="cell" th:text="${eduactivity.getActivity_name()}"></td>
+                                    <td class="cell" th:text="${eduactivity.getTime_frame()}"></td>
+                                    <td class="cell" th:text="${eduactivity.getImplementation()}"></td>
+                                    <td class="cell">
+                                        <button id="deleteEduBtn" class="delete" type="button" data-toggle="modal"
+                                                data-target="#deleteEduModal"
+                                                th:attr="data-whatever=${eduactivity.activity_name}"><i
+                                                class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="cell" style="font-weight:bold; text-align: right;">TOTAL</td>
+                                    <td class="cell" th:text="${sumofEduActivtyframe}"></td>
+                                    <td class="cell" th:text="${sumofEduActivtyimp}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <label for="start">Start date:</label>
+                <input class="datePicker" type="date" id="start" name="doc_date" value="2022-06-01">
+                <button class="btn btn-outline-secondary" type="submit" style="margin-left: 25px">Save</button>
+            </form>
+
         </div>
-    </div>
 
-    <div id="addModal" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form class="needs-validation" novalidate="" action="/groups/add" method = "post">
+        <div id="addModal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form class="needs-validation" novalidate="" action="/plan/addAcadem" method="post">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Add </h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="form-label">Activity name</label>
+                                <input type="text" class="form-control" name="activity_name" placeholder="" value=""
+                                       required="">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Time frame(hours)</label>
+                                <input type="text" class="form-control" name="time_frame" placeholder="" value=""
+                                       required="">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Implementation(hours)</label>
+                                <input type="text" class="form-control" name="implementation" placeholder="" value=""
+                                       required="">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                            <input type="submit" class="btn btn-outline-secondary" value="Add">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div id="addResModal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form class="needs-validation" novalidate="" action="/plan/addRes" method="post">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Add </h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="form-label">Activity name</label>
+                                <input type="text" class="form-control" name="activity_name" placeholder="" value=""
+                                       required="">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Output(thousand tenge)</label>
+                                <input type="text" class="form-control" name="output" placeholder="" value=""
+                                       required="">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Participation(%)</label>
+                                <input type="text" class="form-control" name="participation" placeholder="" value=""
+                                       required="">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Time frame(hours)</label>
+                                <input type="text" class="form-control" name="time_frame" placeholder="" value=""
+                                       required="">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Implementation(hours)</label>
+                                <input type="text" class="form-control" name="implementation" placeholder="" value=""
+                                       required="">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                            <input type="submit" class="btn btn-outline-secondary" value="Add">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div id="addMethModal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form class="needs-validation" novalidate="" action="/plan/addMeth" method="post">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Add </h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="form-label">Activity name</label>
+                                <input type="text" class="form-control" name="activity_name" placeholder="" value=""
+                                       required="">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Time frame(hours)</label>
+                                <input type="text" class="form-control" name="time_frame" placeholder="" value=""
+                                       required="">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Implementation(hours)</label>
+                                <input type="text" class="form-control" name="implementation" placeholder="" value=""
+                                       required="">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                            <input type="submit" class="btn btn-outline-secondary" value="Add">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div id="addEduModal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form class="needs-validation" novalidate="" action="/plan/addEdu" method="post">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Add </h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="form-label">Activity name</label>
+                                <input type="text" class="form-control" name="activity_name" placeholder="" value=""
+                                       required="">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Time frame(hours)</label>
+                                <input type="text" class="form-control" name="time_frame" placeholder="" value=""
+                                       required="">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Implementation(hours)</label>
+                                <input type="text" class="form-control" name="implementation" placeholder="" value=""
+                                       required="">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                            <input type="submit" class="btn btn-outline-secondary" value="Add">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Add </h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h5 class="modal-title">Delete</h5>
+                        <button type="button" class="close" data-dismiss="modal"></button>
                     </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label  class="form-label">Group Name</label>
-                            <input type="text" class="form-control" name="group_name" placeholder="" value="" required="">
-                        </div>
-                        <div class="form-group">
-                            <label  class="form-label">Speciality</label>
-                            <input type="text" class="form-control" name="speciality" placeholder="" value="" required="">
-                        </div>
-                        <div class="form-group">
-                            <label  class="form-label">Number of students</label>
-                            <input type="text" class="form-control" name="number_of_students" placeholder="" value="" required="">
-                        </div>
-                        <div class="form-group">
-                            <label  class="form-label">Year of study </label>
-                            <select class="form-select" name="course" required="">
-                                <option value="">Select</option>
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label  class="form-label">Semester</label>
-                            <select class="form-select" name="semester" required="">
-                                <option value="">Select</option>
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                                <option>6</option>
-                                <option>7</option>
-                                <option>8</option>
-                            </select>
-                        </div>
+                    <div id="deleteModalBody" class="modal-body">
+                        <p>Are you sure you want to delete this record?</p>
                     </div>
                     <div class="modal-footer">
-                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                        <input type="submit" class="btn btn-outline-secondary" value="Add">
+                        <form id="deleteForm" action="/plan/deleteAcadem" method="get"></form>
+                        <input type="hidden" name="activity_name" form="deleteForm"/>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-danger" form="deleteForm">Delete</button>
                     </div>
-                </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="deleteResModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Delete</h5>
+                        <button type="button" class="close" data-dismiss="modal"></button>
+                    </div>
+                    <div id="deleteResModalBody" class="modal-body">
+                        <p>Are you sure you want to delete this record?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <form id="deleteResForm" action="/plan/deleteRes" method="get"></form>
+                        <input type="hidden" name="activity_name" form="deleteResForm"/>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-danger" form="deleteResForm">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="deleteMethModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Delete</h5>
+                        <button type="button" class="close" data-dismiss="modal"></button>
+                    </div>
+                    <div id="deleteMethModalBody" class="modal-body">
+                        <p>Are you sure you want to delete this record?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <form id="deleteMethForm" action="/plan/deleteMeth" method="get"></form>
+                        <input type="hidden" name="activity_name" form="deleteMethForm"/>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-danger" form="deleteMethForm">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="deleteEduModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Delete</h5>
+                        <button type="button" class="close" data-dismiss="modal"></button>
+                    </div>
+                    <div id="deleteEduModalBody" class="modal-body">
+                        <p>Are you sure you want to delete this record?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <form id="deleteEduForm" action="/plan/deleteEdu" method="get"></form>
+                        <input type="hidden" name="activity_name" form="deleteEduForm"/>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-danger" form="deleteEduForm">Delete</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Delete</h5>
-                    <button type="button" class="close" data-dismiss="modal"></button>
-                </div>
-                <div id="deleteModalBody" class="modal-body">
-                    <p>Are you sure you want to delete this record?</p>
-                </div>
-                <div class="modal-footer">
-                    <form id="deleteForm" action="/groups/delete" method="get"></form>
-                    <input type="hidden" name="id" form="deleteForm"/>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-danger" form="deleteForm">Delete</button>
-                </div>
-            </div>
+
+    <footer class="app-footer">
+        <div class="container text-center py-3">
+            <small class="copyright">International IT University</small>
         </div>
-    </div>
+    </footer>
 
 </div>
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-<script type="text/javascript" th:src="@{/css/script.js}"></script>
+<!-- Javascript -->
+<script th:src="@{/plugins/popper.min.js}"></script>
+<script th:src="@{/plugins/bootstrap/js/bootstrap.min.js}"></script>
+<!-- Page Specific JS -->
+<script th:src="@{/js/app.js}"></script>
+<!--    <script th:src="@{/js/script.js}"></script>-->
+
 </body>
+
 </html>

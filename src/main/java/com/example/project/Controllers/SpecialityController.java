@@ -1,15 +1,17 @@
 package com.example.project.Controllers;
 
+import com.example.project.Modules.Groups;
 import com.example.project.Modules.Specialities;
 import com.example.project.Repositories.SpecialitiesRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
-@RestController
-@RequestMapping("/specialities")
+@Controller
 public class SpecialityController {
 
     private final SpecialitiesRepo specialitiesRepo;
@@ -19,31 +21,40 @@ public class SpecialityController {
         this.specialitiesRepo = specialitiesRepo;
     }
 
-    @GetMapping("/findall")
-    public List<Specialities> findAll() {
-        return (List<Specialities>) specialitiesRepo.findAll();
+    @GetMapping("/specialities/edit")
+    public String getSpecialitiesPage(Model model){
+        List<Specialities> specialities = specialitiesRepo.findAll();
+        model.addAttribute("specialities", specialities);
+        return "specialities_edit";
     }
 
-    @PostMapping("/createSpeaciality")
-    public Specialities add(@RequestBody Specialities speciality) {
+    @GetMapping("/specialities")
+    public String getGroupsList(Model model){
+        List<Specialities> specialities = specialitiesRepo.findAll();
+        model.addAttribute("specialities", specialities);
+        return "specialities_list";
+    }
+
+    @GetMapping("/specialities/add")
+    public String addGroup(){
+        return "specialities_edit";
+    }
+
+    @PostMapping("/specialities/add")
+    public String add(Specialities speciality) {
         specialitiesRepo.save(speciality);
-        return speciality;
+        return "redirect:/specialities/edit";
     }
 
-    @GetMapping("/group/{id}")
-    public Optional<Specialities> find(@PathVariable("id") long id) {
-        return specialitiesRepo.findById(id);
-    }
-
-    @DeleteMapping("/delete/{id}")
-    public void delete(@PathVariable("id") long id) {
+    @GetMapping("/specialities/delete")
+    public String delete(@RequestParam long id) {
         specialitiesRepo.deleteById(id);
+        return "redirect:/specialities/edit";
     }
 
-    @PutMapping("/update/{id}")
-    public Specialities update(@PathVariable("id") long id, @RequestBody Specialities speciality) {
-        speciality.setId(id);
+    @PostMapping("/specialities/edit")
+    public String update(@ModelAttribute Specialities speciality) {
         specialitiesRepo.save(speciality);
-        return speciality;
+        return "redirect:/specialities/edit";
     }
 }

@@ -20,7 +20,7 @@ public class SignUpController {
 
     @GetMapping("/users/add")
     public String getSignUpPage(){
-        return "user_add";
+        return "users_add";
     }
 
     @PostMapping("/users/add")
@@ -36,6 +36,6 @@ public class SignUpController {
         teacher.setPassword(passwordEncoder.encode(teacher.getPassword()));
         teacher.setRole(role);
         teacherRepository.save(teacher);
-        return "redirect:/users";
+        return "redirect:/users/list";
     }
 }
